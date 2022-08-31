@@ -1,4 +1,4 @@
-module github.com/CaiJimmy/hugo-theme-stack-starter
+module github.com/slhmy/slhmy.github.io
 
 go 1.17
 
