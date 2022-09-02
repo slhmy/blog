@@ -1,6 +1,8 @@
 ---
 title: React Basics
-description: Some core principals you may need to know when you get in touch with react
+description: 
+    Some core principals you may need to know
+    when you get in touch with react
 slug: react-hooks
 date: 2022-08-31 19:00:00+0800
 categories:
