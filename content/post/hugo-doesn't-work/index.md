@@ -23,6 +23,6 @@ wether it will become more complex depends on the amount of problems.
 **Description:** Run `hugo server` and visit the development site, see nothing but a white page.
 Find WARNINGs like 'found no layout file for "HTML" for "page"'.
 
-**Related link:** [How to fix the error `found no layout file for "HTML" for "page"` in Hugo CMS?](https://stackoverflow.com/questions/60269683/how-to-fix-the-error-found-no-layout-file-for-html-for-page-in-hugo-cms)
+**Related link:** [How to fix the error 'found no layout file for "HTML" for "page"' in Hugo CMS?](https://stackoverflow.com/questions/60269683/how-to-fix-the-error-found-no-layout-file-for-html-for-page-in-hugo-cms)
 
 **Solution:** Run `hugo mod clean`.
