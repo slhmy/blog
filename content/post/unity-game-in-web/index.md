@@ -53,4 +53,23 @@ tags:
 
 ## 将Unity游戏嵌入到React项目当中
 
-> 待完成的内容...
+这里就是使用了一个Node的依赖，[React Unity WebGL](https://www.npmjs.com/package/react-unity-webgl)
+
+大致的使用方法如下:
+
+``` JavaScript
+export default function DashboardPage() {
+  const { unityProvider } = useUnityContext({
+    loaderUrl: "/game/build/kart.loader.js",
+    dataUrl: "/game/build/kart.data.unityweb",
+    frameworkUrl: "/game/build/kart.framework.js.unityweb",
+    codeUrl: "/game/build/kart.wasm.unityweb",
+  });
+
+  return (
+    <Unity unityProvider={unityProvider} style={{ width: 800, height: 600 }} />
+  );
+}
+```
+
+这是一个比较简单的使用例子，可以看到在`useUnityContext`中，我们提供的信息其实就是之前介绍到的主体。
