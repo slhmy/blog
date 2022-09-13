@@ -26,3 +26,6 @@ Find WARNINGs like 'found no layout file for "HTML" for "page"'.
 **Related link:** [How to fix the error 'found no layout file for "HTML" for "page"' in Hugo CMS?](https://stackoverflow.com/questions/60269683/how-to-fix-the-error-found-no-layout-file-for-html-for-page-in-hugo-cms)
 
 **Solution:** Run `hugo mod clean`.
+
+**Guess Cause:** Some of the computer rubbish cleaner software may delete the running essenstial of Hugo as rubbish.
+This issue is likely to appear after I clean my computer with rubbish cleaner.
