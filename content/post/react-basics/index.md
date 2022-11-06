@@ -10,6 +10,7 @@ categories:
 tags:
     - React
     - JavaScript
+    - Frontend
 ---
 
 ## Hooks
