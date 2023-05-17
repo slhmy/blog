@@ -16,7 +16,8 @@ tags:
 后来页面架子搭了一点需求之后，经理跟我沟通了一个需求，说是要把原来某个阶段打的log放到组件里显示出来。
 
 简单来说是这样一个场景：
-```Javascript
+
+``` Javascript
 function xxxPage() {
     useEffect(() => {
         xxxOperation.operationListener();
@@ -27,10 +28,12 @@ function xxxPage() {
     )
 }
 ```
+
 `operationListener`会在这个页面启动后，监听某个后台任务，然后用`console.log`打印在控制台里。
 
 `operationListener`的大致情况是这样的：
-```Javascript
+
+``` Javascript
 class xxxOperation {
     // ...
 

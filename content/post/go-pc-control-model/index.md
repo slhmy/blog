@@ -92,7 +92,7 @@ default:
 
 ``` Golang
 type Message struct {
-	Content string
+    Content string
 }
 
 func main() {
