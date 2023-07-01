@@ -1,6 +1,6 @@
 # Uncomment this file to enable multilanguage site support
 
-#[en]
+[en]
 #languageName = "English"
 #languagedirection = "ltr"
 #title = "Example Site"
