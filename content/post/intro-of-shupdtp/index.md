@@ -13,6 +13,7 @@ tags:
 
 > 迁移自我的语雀，此项目已经放弃维护，它出现在这里，主要是因为我想测试一下我的博客迁移工具~
 
+<img src="images/ys.gif"/>
 <a name="eV3yQ"></a>
 ## ✏️ 前言
 <a name="zKp6y"></a>
