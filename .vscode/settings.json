@@ -1,7 +1,8 @@
 {
     "markdownlint.config": {
         "no-inline-html": { 
-            "allowed_elements": ["img"]
-        }
+            "allowed_elements": ["img", "details", "summary"]
+        },
+        "first-line-h1": false
     }
 }
