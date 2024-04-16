@@ -1,2 +1,0 @@
-# go-pc-control-model
-

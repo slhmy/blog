@@ -1,2 +1,0 @@
-# monotone-stack
-
