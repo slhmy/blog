@@ -1,0 +1,26 @@
+<section class="article-content">
+    <!-- Refer to https://discourse.gohugo.io/t/responsive-tables-in-markdown/10639/5 -->
+    {{ $wrappedTable := printf "<div class=\"table-wrapper\">${1}</div>" }}
+    {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+
+        window.addEventListener("onColorSchemeChange", 
+            function(event) {
+                let mermaid = document.querySelector("pre.mermaid");
+                if (mermaid) {
+                    // TODO: Find a way to update the theme without reloading the page
+                }
+            }
+        );
+
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: document.documentElement.dataset.scheme === 'dark' ? 'dark' : 'default',
+        });
+    </script>
+    {{ end }}
+</section>
+
