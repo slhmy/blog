@@ -7,18 +7,9 @@
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
 
-        window.addEventListener("onColorSchemeChange", 
-            function(event) {
-                let mermaid = document.querySelector("pre.mermaid");
-                if (mermaid) {
-                    // TODO: Find a way to update the theme without reloading the page
-                }
-            }
-        );
-
         mermaid.initialize({ 
             startOnLoad: true,
-            theme: document.documentElement.dataset.scheme === 'dark' ? 'dark' : 'default',
+            theme: "dark",
         });
     </script>
     {{ end }}
