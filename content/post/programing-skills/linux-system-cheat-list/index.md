@@ -4,7 +4,7 @@ description: Some usefull records related with Linux System
 slug: linux-system-cheat-list
 date: 2022-09-09 15:48:00+0800
 categories:
-    - Programming Skills
+    - Programing Skills
 tags:
     - Linux
 ---
