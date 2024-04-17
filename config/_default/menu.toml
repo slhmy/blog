@@ -8,9 +8,17 @@
 #newtab = true
 
 [[social]]
+identifier = "yuque"
+name = "YuQue"
+url = "https://www.yuque.com/slhmy-zzy"
+[social.params]
+icon = "brand-yuque"
+newtab = true
+
+[[social]]
 identifier = "github"
 name = "GitHub"
 url = "https://github.com/slhmy"
-
 [social.params]
 icon = "brand-github"
+newtab = true
