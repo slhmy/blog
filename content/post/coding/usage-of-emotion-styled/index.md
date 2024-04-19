@@ -4,7 +4,7 @@ description: Build styled CSS component without UI tools
 slug: usage-of-emotion-styled
 date: 2022-11-06 10:45:00+0800
 categories:
-    - Programing Skills
+    - 编程
 tags:
     - Javascript
     - React

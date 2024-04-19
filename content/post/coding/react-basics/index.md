@@ -6,7 +6,7 @@ description:
 slug: react-hooks
 date: 2022-08-31 19:00:00+0800
 categories:
-    - Programing Skills
+    - 编程
 tags:
     - React
     - JavaScript

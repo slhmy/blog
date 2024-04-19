@@ -4,7 +4,7 @@ description: A useful design model you should know in front-end developing
 slug: event-publish-model-in-javascript
 date: 2022-09-25 17:20:00+0800
 categories:
-    - Programing Skills
+    - 编程
 tags:
     - Javascript
 ---

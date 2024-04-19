@@ -4,7 +4,7 @@ description:
 slug: learn-rust-with-a-glance
 date: 2023-07-02 16:33:00+0800
 categories:
-    - Programing Skills
+    - 编程
 tags:
     - Rust
     - Tutorial

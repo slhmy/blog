@@ -1,14 +1,11 @@
 ---
-title: Monotone Stack
-description: 
-    An algorithm which is easy in principal
-    but not easy to think of when you need it 
+title: 单调栈
+description: 一个简单的数据结构，但是在实际需要时又会经常会忘记
 slug: monotone-stack
 date: 2022-09-01 20:56:00+0800
 categories:
-    - Algorithms
+    - 算法
 tags:
-    - Classic Algorithm
 ---
 
 单调栈是一个很简单的数据结构，但我在做单调栈题目的时候经常一时间想不起来要用它。

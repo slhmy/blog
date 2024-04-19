@@ -5,7 +5,7 @@ slug: go-pc-control-model
 date: 2022-09-03 11:09:00+0800
 image: cover.png
 categories:
-    - Programing Skills
+    - 编程
 tags:
     - Golang
     - Goroutine
