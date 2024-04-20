@@ -4,7 +4,7 @@ description: A simple data structure that is often forgotten when needed
 slug: monotone-stack
 date: 2022-09-01 20:56:00+0800
 categories:
-    - Algorithm
+    - algorithm
 tags:
 ---
 

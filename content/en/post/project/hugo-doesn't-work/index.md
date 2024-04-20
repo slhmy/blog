@@ -4,7 +4,7 @@ description: Trouble shooting with Hugo
 slug: hugo-doesn't-work
 date: 2022-09-09 15:48:00+0800
 categories:
-    - Project
+    - project
 tags:
     - Hugo
     - Trouble Shooting

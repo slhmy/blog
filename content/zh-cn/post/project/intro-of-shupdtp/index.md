@@ -4,7 +4,7 @@ description:
 slug: intro-of-shupdtp
 date: 2023-08-12 20:00:02+0800
 categories:
-    - 项目
+    - project
 tags:
     - 归档
 ---

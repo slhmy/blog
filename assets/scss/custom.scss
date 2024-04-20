@@ -1,0 +1,42 @@
+@media (min-width: 1024px) {
+    .article-list--compact {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: 0 0;
+        box-shadow: none;
+        gap: 1rem;
+
+        article {
+            background: var(--card-background);
+            border: none;
+            box-shadow: var(--shadow-l2);
+            margin-bottom: 8px;
+            border-radius: 16px;
+        }
+    }
+}
+
+.article-list--compact, .section-card {
+    img {
+        border-radius: 8px;
+    }
+}
+
+.has-image:not(:hover) {
+    .article-details {
+        background: none !important;
+    }
+}
+
+.has-image:hover {
+    .article-details {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 75%) !important;
+    }
+}
+
+.menu li:hover {
+    font-weight: 600;
+    svg {
+        stroke-width: 2.02 !important;
+    }
+}

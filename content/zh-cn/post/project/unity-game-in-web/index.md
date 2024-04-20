@@ -5,7 +5,7 @@ slug: unity-game-in-web
 date: 2022-09-11 11:22:00+0800
 image: preview.png
 categories:
-    - 项目
+    - project
 tags:
     - Unity
     - WebGL
