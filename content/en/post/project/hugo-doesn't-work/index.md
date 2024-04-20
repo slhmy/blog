@@ -4,7 +4,7 @@ description: Trouble shooting with Hugo
 slug: hugo-doesn't-work
 date: 2022-09-09 15:48:00+0800
 categories:
-    - 项目
+    - Project
 tags:
     - Hugo
     - Trouble Shooting
@@ -18,7 +18,7 @@ so I decide to do some more to record them in case I meet them again.
 This post can be very easy currently,
 wether it will become more complex depends on the amount of problems.
 
-## found no layout file for "HTML" for "page"
+## Found no layout file for "HTML" for "page"
 
 **Description:** Run `hugo server` and visit the development site, see nothing but a white page.
 Find WARNINGs like 'found no layout file for "HTML" for "page"'.

@@ -1,8 +1,5 @@
 ---
-title: React Basics
-description: 
-    Some core principals you may need to know
-    when you get in touch with react
+title: React 基础
 slug: react-hooks
 date: 2022-08-31 19:00:00+0800
 categories:
@@ -10,7 +7,7 @@ categories:
 tags:
     - React
     - JavaScript
-    - Frontend
+    - 前端
 ---
 
 ## Hooks

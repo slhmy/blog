@@ -1,12 +1,12 @@
 ---
-title: Intro of SHUpdtp
+title: 上海大学程序设计训练平台 SHUpdtp 介绍
 description: 
 slug: intro-of-shupdtp
 date: 2023-08-12 20:00:02+0800
 categories:
     - 项目
 tags:
-    - Archived
+    - 归档
 ---
 
 > 迁移自我的语雀，此项目已经放弃维护，它出现在这里，主要是因为我想测试一下我的博客迁移工具\~
@@ -15,7 +15,7 @@ tags:
 
 ### 随便说说
 
-<img src="images/application.gif" alt="application.gif" />
+<img src="images/application.gif" width="25%" alt="application.gif"  />
 
 这个项目对我个人而言，意义比较特殊。它是我的毕业设计课题，但在答辩结束以后，这个项目还是在一直继续的完善开发...甚至可能直到我离开学校，它有可能还有很长一段路要走。
 
