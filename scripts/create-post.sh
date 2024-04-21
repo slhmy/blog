@@ -12,9 +12,8 @@ if [ -z "$language" ]; then
 fi
 
 post_dir="content/$language/post/$slug"
-mkdir -p "$post_dir"
-
 post_md="$post_dir/index.md"
+
 if [ -f "$post_md" ]; then
     echo "Post already exists at $post_md"
     old_date=$(grep "^date:" "$post_md" | sed "s/^date: *//")
@@ -31,6 +30,15 @@ if [ -f "$post_md" ]; then
     exit 1
 fi
 
+echo "Creating post at $post_md"
+echo "Do you want to create a new post with the slug $slug? [Y/n]"
+read -r create
+if [ "$create" != "Y" ]; then
+    echo "Nothing to be done, exiting"
+    exit 1
+fi
+
+mkdir -p "$post_dir"
 touch "$post_md"
 {
     echo "---"
