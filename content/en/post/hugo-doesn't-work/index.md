@@ -1,13 +1,12 @@
 ---
 title: Hugo doesn't work
-description: Trouble shooting with Hugo 
+description: Trouble shooting with Hugo
 slug: hugo-doesn't-work
 date: 2022-09-09 15:48:00+0800
 categories:
-    - project
+  - project
 tags:
-    - Hugo
-    - Trouble Shooting
+  - Hugo
 ---
 
 Today, I opened my blog workplace and decided to write something about my latest work.

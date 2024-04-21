@@ -3,11 +3,9 @@ title: React 基础
 slug: react-hooks
 date: 2022-08-31 19:00:00+0800
 categories:
-    - coding
+  - coding
 tags:
-    - React
-    - JavaScript
-    - 前端
+  - React
 ---
 
 ## Hooks

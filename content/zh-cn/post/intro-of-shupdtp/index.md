@@ -4,9 +4,8 @@ description:
 slug: intro-of-shupdtp
 date: 2023-08-12 20:00:02+0800
 categories:
-    - project
-tags:
-    - 归档
+  - project
+tags: []
 ---
 
 > 迁移自我的语雀，此项目已经放弃维护，它出现在这里，主要是因为我想测试一下我的博客迁移工具\~
