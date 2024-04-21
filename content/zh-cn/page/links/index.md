@@ -11,6 +11,9 @@ links:
   - title: compute's blog
     website: https://akamya.moe/
     image: https://avatars.githubusercontent.com/u/44839751
+  - title: Unsplash
+    description: 博客中的部分图片来自 Unsplash
+    website: https://unsplash.com/
 menu:
     main: 
         weight: 4
