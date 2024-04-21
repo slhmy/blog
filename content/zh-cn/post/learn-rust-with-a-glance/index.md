@@ -4,10 +4,9 @@ description: 本文将介绍如何快速入门 Rust 编程语言，以及 Rust �
 slug: learn-rust-with-a-glance
 date: 2023-07-02 16:33:00+0800
 categories:
-    - coding
+  - coding
 tags:
-    - Rust
-    - 教学
+  - Rust
 ---
 
 ## 前言
