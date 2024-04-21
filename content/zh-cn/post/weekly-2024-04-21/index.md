@@ -25,7 +25,7 @@ tags:
 重启博客和语雀，
 语雀会放更多杂碎（不需要太正式去写的东西，比如减肥计划，偶然兴起画的画什么的）。
 
-博客的撰写支持 Obsidian，详见 [使 Obsidian 在博客中发挥作用](../blogging-with-obsidian/index.md) 。
+博客的撰写支持 Obsidian，详见 [使 Obsidian 在博客中发挥作用](https://slhmy.github.io/blog/zh-cn/p/blogging-with-obsidian/) 。
 其他就是做了一些定制化调整，虽然很多地方还是不是很满意，但一直折腾下去感觉就没底了，于是停止。
 
 ## 心情
