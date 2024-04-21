@@ -2,10 +2,15 @@
 title: 链接
 slug: links
 links:
-  - title: GitHub
-    description: GitHub is the world's largest software development platform.
-    website: https://github.com
-    image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+  - title: CSL 讲废话
+    website: https://blog.cubercsl.site/
+    image: https://avatars.githubusercontent.com/u/22931465
+  - title: Zztrans's blog
+    website: https://blog.zztrans.top/
+    image: https://avatars.githubusercontent.com/u/53961131
+  - title: compute's blog
+    website: https://akamya.moe/
+    image: https://avatars.githubusercontent.com/u/44839751
 menu:
     main: 
         weight: 4
@@ -15,9 +20,10 @@ menu:
 comments: false
 ---
 
-To use this feature, add `links` section to frontmatter.
+要在页面上显示链接，您可以在 frontmatter 中添加 `links` 部分。
 
-This page's frontmatter:
+请在 GitHub 上编辑[此页面](https://github.com/slhmy/blog/blob/master/content/zh-cn/page/links/index.md)，
+可参考示例：
 
 ```yaml
 links:
@@ -25,10 +31,6 @@ links:
     description: GitHub is the world's largest software development platform.
     website: https://github.com
     image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-  - title: TypeScript
-    description: TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
-    website: https://www.typescriptlang.org
-    image: ts-logo-128.jpg
 ```
 
-`image` field accepts both local and external images.
+`image` 字段接受本地和外部图片。
