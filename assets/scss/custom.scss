@@ -22,21 +22,8 @@
     }
 }
 
-.has-image:not(:hover) {
+.has-image {
     .article-details {
         background: none !important;
-    }
-}
-
-.has-image:hover {
-    .article-details {
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 75%) !important;
-    }
-}
-
-.menu li:hover {
-    font-weight: 600;
-    svg {
-        stroke-width: 2.02 !important;
     }
 }
