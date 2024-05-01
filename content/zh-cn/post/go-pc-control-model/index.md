@@ -67,9 +67,9 @@ tags:
 但在这样一个功能的基础上，`Context` 还提供了一些特殊字段和控制方法，用来实现对协程的控制。
 最重要的一种用法如下：
 
-``` Golang
+```go
 select {
-case <-ctx.Done():
+case <- ctx.Done():
     return
 default:
     // normal works when this goroutine is up
@@ -88,7 +88,7 @@ default:
 
 我们首先定义消息的格式，并准备 `channel` 和 `Context`。
 
-``` Golang
+```go
 type Message struct {
     Content string
 }
@@ -108,7 +108,7 @@ func main() {
 
 ### Producer 核心逻辑
 
-``` Golang
+```go
 select {
 // Handle <-ctx.Done()
 case <-ctx.Done():
@@ -130,7 +130,7 @@ default:
 
 ### Consumer 核心逻辑
 
-``` Golang
+```go
 // Consume
 data := <-dataCh
 fmt.Printf("Consumer_%d get message: %s\n", id, data.Content)
