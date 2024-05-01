@@ -56,7 +56,7 @@ tags:
 
 大致的使用方法如下:
 
-``` JavaScript
+```javaScript
 export default function DashboardPage() {
   const { unityProvider } = useUnityContext({
     loaderUrl: "/game/build/kart.loader.js",
