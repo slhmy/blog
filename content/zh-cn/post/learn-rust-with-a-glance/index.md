@@ -91,7 +91,7 @@ Rust 足够安全的特性大幅度减轻了我的心理负担。
 2. VSCode/Clion + Rust 插件包（包含 rust-analyzer）（+tabnine/copilot）
 
 接下来你需要掌握 Cargo 的使用，文档可以参考[Cargo Book](https://doc.rust-lang.org/cargo/)。
-<u>你需要知道如何使用`cargo new/build/run/test + fmt/clippy`的使用，其中 fmt 和 clippy 可以帮助你编写更优秀的代码</u>。
+<u>你需要知道如何使用 `cargo new/build/run/test + fmt/clippy` 的使用，其中 fmt 和 clippy 可以帮助你编写更优秀的代码</u>。
 
 ### Rust的语法和特性
 
@@ -147,7 +147,7 @@ enum Option<T> {
 在展开 `Option` 包裹的值时，你只会遇到两种情况，一种是 `None` 一种是有值的 `Some`。
 
 **那么如何展开一个Enum呢？
-常见的方法有两种 (`match` 和 `if let`)**：
+常见的方法有两种 ( `match` 和 `if let` )**：
 
 ```rust
     let config_max = Some(3u8);
@@ -288,7 +288,7 @@ fn takes_and_gives_back(a_string: String) -> String { // a_string comes into
 }
 ```
 
-要修复上面的编译报错也很简单，只需对 s2 进行拷贝即可 `let s3 = takes_and_gives_back(s2.clone());`。
+要修复上面的编译报错也很简单，只需对 s2 进行拷贝即可 `let s3 = takes_and_gives_back(s2.clone());` 。
 *在很多语言，例如 Golang 和 Java 中这一动作是自动发生的，
 而在 Rust 当中，你需要在代码中体现这一个动作。*
 
