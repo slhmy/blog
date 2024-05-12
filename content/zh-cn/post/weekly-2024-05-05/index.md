@@ -4,7 +4,8 @@ description:
 slug: weekly-2024-05-05
 date: 2024-05-05 16:28:12+0800
 image: 
-categories: 
+categories:
+  - weekly
 tags:
 ---
 时间过得实在是太快了，转眼 5 天的五一假期就过去了。
