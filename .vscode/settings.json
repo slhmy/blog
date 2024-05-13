@@ -1,8 +1,9 @@
 {
-    "markdownlint.config": {
-        "no-inline-html": { 
-            "allowed_elements": ["img", "details", "summary", "u"]
-        },
-        "first-line-h1": false
-    }
+  "editor.formatOnSave": true,
+  "markdownlint.config": {
+    "no-inline-html": {
+      "allowed_elements": ["img", "details", "summary", "u"]
+    },
+    "first-line-h1": false
+  }
 }
