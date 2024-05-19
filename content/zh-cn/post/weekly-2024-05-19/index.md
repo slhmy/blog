@@ -4,7 +4,8 @@ description:
 slug: weekly-2024-05-19
 date: 2024-05-19 18:04:22+0800
 image: 
-categories: 
+categories:
+  - weekly
 tags:
 ---
 
