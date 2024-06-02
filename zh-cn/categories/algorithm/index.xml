@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>算法 on slhmy 的博客</title><link>https://slhmy.github.io/blog/zh-cn/categories/algorithm/</link><description>Recent content in 算法 on slhmy 的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 01 Sep 2022 20:56:00 +0800</lastBuildDate><atom:link href="https://slhmy.github.io/blog/zh-cn/categories/algorithm/index.xml" rel="self" type="application/rss+xml"/><item><title>单调栈</title><link>https://slhmy.github.io/blog/zh-cn/p/monotone-stack/</link><pubDate>Thu, 01 Sep 2022 20:56:00 +0800</pubDate><guid>https://slhmy.github.io/blog/zh-cn/p/monotone-stack/</guid><description>&lt;p>单调栈是一个很简单的数据结构，但我在做单调栈题目的时候经常一时间想不起来要用它。
+这是一件很奇怪的事情，因为单调栈确实是一个“看一眼就会的”那种&amp;hellip;
+之所以出现这样的情况，道理其实很简单：&lt;strong>对单调栈凸显的本质还不够了解&lt;/strong>。&lt;/p>
+&lt;h2 id="单调栈的本质">单调栈的本质
+&lt;/h2>&lt;p>其实单调栈的本质也很简单，我们用拆词的方法区理解它。&lt;/p>
+&lt;p>首先是&lt;strong>单调&lt;/strong>，它描述了栈里元素的排列状态，
+它是从上到下（或者从下到上）&lt;strong>有序&lt;/strong>排列的这么一个形式。&lt;/p>
+&lt;p>接下来是&lt;strong>栈&lt;/strong>，栈代表通常在某个状态下，我们&lt;strong>只关心栈的顶端&lt;/strong>是什么元素。&lt;/p>
+&lt;h2 id="问题配对">问题配对
+&lt;/h2>&lt;p>知道本质以后，我们需要反过来去想，单调栈适合去解符合什么样特点的问题。&lt;/p>
+&lt;p>首先有序的特点约束了单调栈，它&lt;strong>只适合去解决一些分析顺序是有序的问题&lt;/strong>，
+也就是说，如果题目要求是随机查询这种，那么在不事先打表的情况下，单调栈是不能解决这类问题的。&lt;/p>
+&lt;p>另外对栈的&lt;strong>单端&lt;/strong>特点来说，它其实隐含了，类似下一个最大（或者最小）这种信息，
+因为我们似乎并不需要去关注栈里的其它内容，所以是&lt;strong>在某个状态下，求最值的一种场景&lt;/strong>。
+从另外一方面去看，在只关注最值的情况下，其它部分的值是又被忽略的，
+所以单调栈还有着&lt;strong>在遍历期间忽略数据噪音&lt;/strong>的特性
+（Ex. 忽略右侧最小的时候，我们并不关系右侧其它较大的值，这时候就可以用单调栈来解决）&lt;/p></description></item></channel></rss>

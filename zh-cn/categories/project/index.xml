@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>项目 on slhmy 的博客</title><link>https://slhmy.github.io/blog/zh-cn/categories/project/</link><description>Recent content in 项目 on slhmy 的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 12 Aug 2023 20:00:02 +0800</lastBuildDate><atom:link href="https://slhmy.github.io/blog/zh-cn/categories/project/index.xml" rel="self" type="application/rss+xml"/><item><title>上海大学程序设计训练平台 SHUpdtp 介绍</title><link>https://slhmy.github.io/blog/zh-cn/p/intro-of-shupdtp/</link><pubDate>Sat, 12 Aug 2023 20:00:02 +0800</pubDate><guid>https://slhmy.github.io/blog/zh-cn/p/intro-of-shupdtp/</guid><description>&lt;blockquote>
+&lt;p>迁移自我的语雀，此项目已经放弃维护，它出现在这里，主要是因为我想测试一下我的博客迁移工具~&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="-前言">✏️ 前言
+&lt;/h2>&lt;h3 id="随便说说">随便说说
+&lt;/h3>&lt;img src="images/application.gif" width="25%" alt="application.gif" />
+&lt;p>这个项目对我个人而言，意义比较特殊。它是我的毕业设计课题，但在答辩结束以后，这个项目还是在一直继续的完善开发&amp;hellip;甚至可能直到我离开学校，它有可能还有很长一段路要走。&lt;/p>
+&lt;p>我这个人比较讨厌放弃一件自己曾经想做但是又没做成的事情，初中时期成绩一年不如一年的算法竞赛让我大学里还是跳进了 ACM-ICPC 的大坑；退役之后以测试身份加入学校 OJ （Online Judge）平台的开发，但实际上后端根本就没有人会启动起来&amp;hellip;所以实习回到学校以后，才会硬着头皮用Rust再搞了一次。&lt;/p>
+&lt;p>这个项目比我预想的要简单一些，对我而言目前它已经不是一个能给我带来进一步提升的项目了，不过如果没有像我这样类似的开发经历的话，它还是有许多地方是值得参考学习的。毕竟我也是从连API规范都搞不清楚，一点点把模块分好，最后又废弃初版重做这样走过来的。这期间的收获还是很多的。&lt;/p>
+&lt;h3 id="这篇文章的主要内容">这篇文章的主要内容
+&lt;/h3>&lt;p>这是一篇介绍博客，主要会说一下项目的大致功能以及涉及到的技术点，具体的技术学习的内容会分享在同系列的笔记当中。&lt;/p>
+&lt;h2 id="-shupdtp-的大致用途">🍟 SHUpdtp 的大致用途
+&lt;/h2>&lt;p>SHUpdtp （全称：Shanghai University program design training platform），中文名译为上海大学程序设计训练平台，简单来说就是一个高校自用的在线判题系统。同类型的网站在面试和竞赛圈里其实很常见，&lt;a class="link" href="https://www.nowcoder.com/" target="_blank" rel="noopener"
+>牛客&lt;/a>、&lt;a class="link" href="https://leetcode-cn.com/" target="_blank" rel="noopener"
+>力扣&lt;/a>应该是全网最家喻户晓的两个（不熟悉的朋友可以访问一下看看）。高校判题系统对比商用判题系统，更多的是承载在线判题的基本功能，拓展功能一般酌情添加，不会像后者做的如此全面（因为本身的受众也更少）。&lt;/p>
+&lt;p>在这篇文章的最开头，我配了一张动图（这是我毕业设计答辩时附带的演示用前端，我不是前端专家，这部分就暂时没有打算分享时怎么做的了），动图里展示的就是一个最基本的在线判题系统的使用方法。如果还是有一些不清楚的话，我这里附上一页 PPT &amp;hellip;说实话这块用文字描述挺困难的，建议有兴趣的还是多看看其他同类型的平台，这部分的文字解说我暂时打算简单略过（如果有需要请记得提醒我更新），非常抱歉🤥！&lt;/p>
+&lt;p>&lt;img src="https://slhmy.github.io/blog/blog/zh-cn/p/intro-of-shupdtp/images/structure.png"
+width="1164"
+height="874"
+srcset="https://slhmy.github.io/blog/blog/zh-cn/p/intro-of-shupdtp/images/structure_hub1bd458f91e81e52522ee7bcc855e52b_366787_480x0_resize_box_3.png 480w, https://slhmy.github.io/blog/blog/zh-cn/p/intro-of-shupdtp/images/structure_hub1bd458f91e81e52522ee7bcc855e52b_366787_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="structure.png"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="319px"
+>&lt;/p>
+&lt;h2 id="-涉及到的技术点">📉 涉及到的技术点
+&lt;/h2>&lt;p>在线判题系统和很多xxx系统（比如图书管理系统，课程管理系统实际上是同一类），但是 SHUpdtp 有两个不一样的点，一是它是使用 Rust 进行开发，二是在线判题系统需要依赖于判题机实现在线判题功能。所以涉及到的主要技术点主要有以下这些：&lt;/p>
+&lt;ul>
+&lt;li>使用 Rust 完成后端开发，确保项目结构清晰，运行稳定&lt;/li>
+&lt;li>怎么使用 Rust 的 Web 框架和 ORM 框架配合数据库制作 API 接口&lt;/li>
+&lt;li>如何用某种手段接入和管理附属判题机&lt;/li>
+&lt;/ul>
+&lt;p>还有一些小的细节方面的我就不一一列举了，以上几个技术点还是比较值得学习的，小一些的技术点多数学习价值不高（不过诸如：接入阿里云短信接口&amp;hellip;这样的案例我有空的时候也会来分享的）。&lt;/p></description></item><item><title>Unity 游戏发布到浏览器</title><link>https://slhmy.github.io/blog/zh-cn/p/unity-game-in-web/</link><pubDate>Sun, 11 Sep 2022 11:22:00 +0800</pubDate><guid>https://slhmy.github.io/blog/zh-cn/p/unity-game-in-web/</guid><description>&lt;img src="https://slhmy.github.io/blog/zh-cn/p/unity-game-in-web/preview.png" alt="Featured image of post Unity 游戏发布到浏览器" />&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>制作游戏一直都是我比较感兴趣的一件事情。
+这次有时间自己尝试了一下，发现过程上其实还挺简单的，
+关键的可能还是需要对前端有一些基本的认识，然后知道 WebGL、WebAssembly 啥的，
+这样在实践的时候不会在大方向上出现问题。&lt;/p>
+&lt;p>这篇文章会复现整个项目的制作流成，目的是提供一个大致清晰的制作方向给大家。&lt;/p>
+&lt;h2 id="制作你的unity游戏">制作你的Unity游戏
+&lt;/h2>&lt;p>这块会使用到的就是一个比较成熟的 Unity 工具链。
+这个例子当中，我使用的是一个 Unity 社区当中的教程模板 &lt;a class="link" href="https://learn.u3d.cn/tutorial/unity-microgame-karting#" target="_blank" rel="noopener"
+>Karting Microgame&lt;/a>，
+你可以在 Unity Hub 中新建项目的时候找到它的模板。
+这个模板中会简单的教会你一些 Unity 的使用（包括测试、修改属性、添加物体、发布等），
+当你简单地对 Unity 有了了解之后，你就可以尝试打包发布你的游戏。&lt;/p>
+&lt;p>打包完成之后你会得到如下图所示的目录结构：&lt;/p>
+&lt;img src="unity-webgl-builds-structure.png" width="50%" alt="builds-structure"/>
+&lt;p>其中 &lt;code>Build&lt;/code> 目录下的就是我们游戏打包出来的主体，其它外部的是一些默认的配置和资源。
+我们可以利用 Node 的 &lt;a class="link" href="https://www.npmjs.com/package/http-server" target="_blank" rel="noopener"
+>http-server&lt;/a>，
+在 &lt;code>WebGL Builds&lt;/code>（或者对应的打包出来的根目录）起一个 HTTP Server，
+这样就可以在浏览器中看到游戏是否在正常运行。&lt;/p>
+&lt;img src="unity-webgl-default-view.png" width="50%" alt="default-view">
+&lt;h3 id="打包时可能会遇到的问题">打包时可能会遇到的问题
+&lt;/h3>&lt;p>在 Unity 默认配置下打包的时候，可能发布出来的游戏在加载阶段会报无法加载 gzip 的报错，修改了 HTTP Server 的配置可能还是会出同样的报错。&lt;/p>
+&lt;p>这个问题目前判断下来是因为 Unity 内核的一些问题导致，
+所以可能需要修改一下在 &lt;code>Edit/Project Settings/Player/Settings for WebGL&lt;/code> 下的打包目标的配置，
+配置方法可以参考下图：&lt;/p>
+&lt;img src="unity-webgl-publishing-settings.png" width="50%" alt="publish-setting">
+&lt;h2 id="将unity游戏嵌入到react项目当中">将Unity游戏嵌入到React项目当中
+&lt;/h2>&lt;p>这里就是使用了一个 Node 的依赖，&lt;a class="link" href="https://www.npmjs.com/package/react-unity-webgl" target="_blank" rel="noopener"
+>React Unity WebGL&lt;/a>&lt;/p>
+&lt;p>大致的使用方法如下:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javaScript" data-lang="javaScript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="k">default&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">DashboardPage&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">unityProvider&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useUnityContext&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">loaderUrl&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;/game/build/kart.loader.js&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dataUrl&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;/game/build/kart.data.unityweb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">frameworkUrl&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;/game/build/kart.framework.js.unityweb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">codeUrl&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;/game/build/kart.wasm.unityweb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="nx">Unity&lt;/span> &lt;span class="nx">unityProvider&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">unityProvider&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="nx">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{{&lt;/span> &lt;span class="nx">width&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">800&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">height&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">600&lt;/span> &lt;span class="p">}}&lt;/span> &lt;span class="o">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这是一个比较简单的使用例子，可以看到在 &lt;code>useUnityContext&lt;/code> 中，我们提供的信息其实就是之前介绍到的主体。&lt;/p></description></item></channel></rss>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Golang on slhmy 的博客</title><link>https://slhmy.github.io/blog/zh-cn/tags/golang/</link><description>Recent content in Golang on slhmy 的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 03 Sep 2022 11:09:00 +0800</lastBuildDate><atom:link href="https://slhmy.github.io/blog/zh-cn/tags/golang/index.xml" rel="self" type="application/rss+xml"/><item><title>Golang 生产消费控制模型</title><link>https://slhmy.github.io/blog/zh-cn/p/go-pc-control-model/</link><pubDate>Sat, 03 Sep 2022 11:09:00 +0800</pubDate><guid>https://slhmy.github.io/blog/zh-cn/p/go-pc-control-model/</guid><description>&lt;img src="https://slhmy.github.io/blog/zh-cn/p/go-pc-control-model/cover.png" alt="Featured image of post Golang 生产消费控制模型" />&lt;p>&lt;strong>前情提要是这样的：&lt;/strong>&lt;/p>
+&lt;p>我昨天参加了我非常喜欢的某公司的全栈开发工程师的面试，
+在介绍了我各种过往奇奇怪怪的（真的是非常奇怪的，面试官听了以后直皱眉😂）项目之后，
+面试官开始考核我的一些实战能力。
+然后上来的第一道代码设计的题目就把我考到了，&lt;strong>要我用协程实现多生产多消费，并且能控制协程创建退出&lt;/strong>。&lt;/p>
+&lt;p>可能是我 Golang 只接触了一个月左右的时间，
+虽然之前确实有一次被考到 &lt;code>channel&lt;/code> 的用法（但复盘的时候也就是简单补习了一下 &lt;code>make channel&lt;/code>）。
+这次上来直接动手要写代码，还是很多反应不过来，我直接就寄了&amp;hellip;
+查了一会 &lt;code>channel&lt;/code> 的用法，后面憋出几行又发现为了不让进程过早退出还要使用 &lt;code>waitGroup&lt;/code> 这些😇。
+然后上面说到的模型确实比较重要的，毕竟我简历上也吹嘘自己掌握各种异步任务设计&amp;hellip;
+结果就是啪啪打脸。&lt;/p>
+&lt;p>于是在这场被虐的非常惨烈的面试之后，我决定把这样一个生产消费模型好好补一下。
+最后补习完了以后发现，大量的内容还是跟 Golang 的 &lt;code>channel&lt;/code> 用法有关，那么这篇文章就主要对其做一个梳理。&lt;/p>
+&lt;h2 id="基础">基础
+&lt;/h2>&lt;p>我不会讲太多，因为很多地方可以查到，介绍的肯定也更详细。
+这里只是提供一个较快的了解。&lt;/p>
+&lt;h3 id="channel">channel
+&lt;/h3>&lt;p>首先对 channel 需要掌握它的类型声明、创建和操作方法。&lt;/p>
+&lt;h4 id="channel的类型声明">channel的类型声明
+&lt;/h4>&lt;p>在Golang当中，我们通过 &lt;code>[VARIABLE NAME] &amp;lt;-chan | chan | chan&amp;lt;- [TYPE]&lt;/code> 这样的句式来声明一个 &lt;code>channel&lt;/code> 和它内部的数据类型。
+这里 &lt;code>chan&lt;/code> 有点像一个前缀的修饰词，可能由于是关键字的原因，在用法上和普通泛型上有区分。
+我认为关键是要使用&lt;strong>象形&lt;/strong>的记忆方式，把 &lt;code>chan&lt;/code> 本身就想象成一个管道，你可以在 &lt;code>chan&lt;/code> 的两侧用 &lt;code>&amp;lt;-&lt;/code> 来标记 &lt;code>chan&lt;/code> 在这个作用域中的可以使用的端口是写端还是读端，没有标记时代表允许双端的操作&lt;/p>
+&lt;h4 id="channel的创建">channel的创建
+&lt;/h4>&lt;p>通过 &lt;code>make&lt;/code> 我们可以创建一个 &lt;code>channel&lt;/code> ，这里值得注意的是 &lt;code>make&lt;/code> 分配的容量是根据对象的原子个数分配的。
+像 &lt;code>string&lt;/code> 类型，分配的是字符串的长度，这里是容易理解错的。
+但如果你是创建的一个 &lt;code>struct&lt;/code>，那分配的容量是“多少个struct”。&lt;/p>
+&lt;h4 id="channel的操作">channel的操作
+&lt;/h4>&lt;p>&lt;code>chan&lt;/code> 最基本的操作就是写值和取值操作。&lt;/p>
+&lt;p>写值的语法是 &lt;code>[CHANNEL] &amp;lt;- [VARIABLE] | [VALUE]&lt;/code>，是象形的操作方式。&lt;/p>
+&lt;p>取值的语法是 &lt;code>[VARIABLE] := &amp;lt;-[CHANNEL]&lt;/code>，代表从写端取值，
+此外还有和 &lt;code>range&lt;/code> 一起使用的一些语法糖（这里就不过多介绍了）。&lt;/p>
+&lt;h3 id="context">Context
+&lt;/h3>&lt;p>&lt;code>Context&lt;/code> 的中文含义是上下文，这类设计其实在很多服务框架中有做到。
+像在Rust的一些Web框架中，会有 &lt;code>app.data&lt;/code> 的设计，这样做的目的主要就是方便线程/协程之间实现数据的共享。&lt;/p>
+&lt;p>在Golang当中，我认为 &lt;code>Context&lt;/code> 也起到了类似的作用。
+但在这样一个功能的基础上，&lt;code>Context&lt;/code> 还提供了一些特殊字段和控制方法，用来实现对协程的控制。
+最重要的一种用法如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="k">select&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">case&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Done&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">default&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// normal works when this goroutine is up
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们通过 &lt;code>ctx.Done&lt;/code> 这个管道来判断协程是否需要终止，
+这个管道的消息可以通过设置 &lt;code>TimeOut&lt;/code> 或者手动 &lt;code>cancel&lt;/code> 等方法来发送。
+具体可以查阅相关的资料。&lt;/p>
+&lt;h2 id="practice">Practice
+&lt;/h2>&lt;p>最后我们来提一下多生产多消费这个模型的实践。
+思路其实很简单，我们需要创建一个 &lt;code>channel&lt;/code> 来作为消息队列，另外我们还需要一个 &lt;code>Context&lt;/code> 来控制协程的退出。&lt;/p>
+&lt;p>我们首先定义消息的格式，并准备 &lt;code>channel&lt;/code> 和 &lt;code>Context&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Message&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Content&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">cancel&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithCancel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Background&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dataChannel&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">chan&lt;/span> &lt;span class="nx">Message&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">countChannel&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">chan&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>dataChannel&lt;/code> 是用来生产的消息队列，&lt;code>countChannel&lt;/code> 是生产者之间用来协同控制消息号的。
+由于 &lt;code>countChannel&lt;/code> 的读写会发生在一个生产者当中，我们需要设置一个大小为1的缓冲，
+每次生产者进行生产之前，生产者会先读取缓冲中的值，并把最新的消息号更新。&lt;/p>
+&lt;p>最后结合 &lt;code>Context&lt;/code> 的基本用法，我们得到的核心逻辑如下：&lt;/p>
+&lt;h3 id="producer-核心逻辑">Producer 核心逻辑
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="k">select&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Handle &amp;lt;-ctx.Done()
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">case&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span>&lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Done&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Producer_%d quit\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">id&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">default&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Get message count
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Count&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span>&lt;span class="nx">countCh&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Count&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">countCh&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nx">Count&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Produce
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">dataCh&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nx">Message&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Content&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Sprintf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Producer_%d sending message_%d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Count&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Second&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="consumer-核心逻辑">Consumer 核心逻辑
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Consume
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">data&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span>&lt;span class="nx">dataCh&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Consumer_%d get message: %s\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Content&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

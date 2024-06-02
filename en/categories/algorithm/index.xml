@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithm on slhmy's blog</title><link>https://slhmy.github.io/blog/en/categories/algorithm/</link><description>Recent content in Algorithm on slhmy's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 01 Sep 2022 20:56:00 +0800</lastBuildDate><atom:link href="https://slhmy.github.io/blog/en/categories/algorithm/index.xml" rel="self" type="application/rss+xml"/><item><title>Monotone Stack</title><link>https://slhmy.github.io/blog/en/p/monotone-stack/</link><pubDate>Thu, 01 Sep 2022 20:56:00 +0800</pubDate><guid>https://slhmy.github.io/blog/en/p/monotone-stack/</guid><description>&lt;p>Monotone stack is a simple data structure, but I often forget to use it when I need it.
+This is a very strange thing, because the monotone stack is indeed a kind of &amp;ldquo;look at it and you will know&amp;rdquo;&amp;hellip;
+The reason for this situation is actually very simple: &lt;strong>I don&amp;rsquo;t understand the essence of the monotone stack&lt;/strong>.&lt;/p>
+&lt;h2 id="the-essence-of-monotone-stack">The essence of monotone stack
+&lt;/h2>&lt;p>In fact, the essence of the monotone stack is very simple, and we can understand it by splitting words.&lt;/p>
+&lt;p>First of all, it is &lt;strong>monotone&lt;/strong>, which describes the arrangement of elements in the stack.
+It is a form of arrangement that is &lt;strong>ordered&lt;/strong> from top to bottom (or from bottom to top).&lt;/p>
+&lt;p>Then it is &lt;strong>stack&lt;/strong>, which represents that we &lt;strong>only care about the top of the stack&lt;/strong> in a certain state.&lt;/p>
+&lt;h2 id="problem-matching">Problem matching
+&lt;/h2>&lt;p>After understanding the essence, we need to think about what kind of problems are suitable for solving with monotone stack.&lt;/p>
+&lt;p>First of all, the ordered characteristics of the monotone stack constrain it, it is &lt;strong>only suitable for solving problems where the order is ordered&lt;/strong>,
+that is to say, if the problem requires random queries, then without pre-tabulation, the monotone stack cannot solve such problems.&lt;/p>
+&lt;p>Then, the &lt;strong>single-end&lt;/strong> feature of the stack actually implies that we seem to need the next maximum (or minimum) information,
+because we don&amp;rsquo;t seem to need to pay attention to the other contents of the stack, so it is &lt;strong>a scene of seeking the maximum value in a certain state&lt;/strong>.
+From another perspective, when only the maximum value is concerned, the values of other parts are ignored,
+so the monotone stack also has the characteristic of &lt;strong>ignoring data noise during traversal&lt;/strong> (Ex. When ignoring the minimum on the right, we don&amp;rsquo;t care about the other larger values on the right, so we can use the monotone stack to solve it).&lt;/p></description></item></channel></rss>

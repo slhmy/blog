@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on slhmy's blog</title><link>https://slhmy.github.io/blog/en/tags/hugo/</link><description>Recent content in Hugo on slhmy's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 09 Sep 2022 15:48:00 +0800</lastBuildDate><atom:link href="https://slhmy.github.io/blog/en/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo doesn't work</title><link>https://slhmy.github.io/blog/en/p/hugo-doesnt-work/</link><pubDate>Fri, 09 Sep 2022 15:48:00 +0800</pubDate><guid>https://slhmy.github.io/blog/en/p/hugo-doesnt-work/</guid><description>&lt;p>Today, I opened my blog workplace and decided to write something about my latest work.
+It was kind of weird that after I ran &lt;code>hugo server&lt;/code> and visit the development site,
+I seen nothing but a white page. I found this kind of strange things bother me a lot,
+so I decide to do some more to record them in case I meet them again.&lt;/p>
+&lt;p>This post can be very easy currently,
+wether it will become more complex depends on the amount of problems.&lt;/p>
+&lt;h2 id="found-no-layout-file-for-html-for-page">Found no layout file for &amp;ldquo;HTML&amp;rdquo; for &amp;ldquo;page&amp;rdquo;
+&lt;/h2>&lt;p>&lt;strong>Description:&lt;/strong> Run &lt;code>hugo server&lt;/code> and visit the development site, see nothing but a white page.
+Find WARNINGs like &amp;lsquo;found no layout file for &amp;ldquo;HTML&amp;rdquo; for &amp;ldquo;page&amp;rdquo;&amp;rsquo;.&lt;/p>
+&lt;p>&lt;strong>Related link:&lt;/strong> &lt;a class="link" href="https://stackoverflow.com/questions/60269683/how-to-fix-the-error-found-no-layout-file-for-html-for-page-in-hugo-cms" target="_blank" rel="noopener"
+>How to fix the error &amp;lsquo;found no layout file for &amp;ldquo;HTML&amp;rdquo; for &amp;ldquo;page&amp;rdquo;&amp;rsquo; in Hugo CMS?&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Solution:&lt;/strong> Run &lt;code>hugo mod clean&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>Guess Cause:&lt;/strong> Some of the computer rubbish cleaner software may delete the running essenstial of Hugo as rubbish.
+This issue is likely to appear after I clean my computer with rubbish cleaner.&lt;/p></description></item></channel></rss>

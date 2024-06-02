@@ -1,0 +1,242 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="本文将介绍如何快速入门 Rust 编程语言，以及 Rust 的特性和开发工具链。"><title>快速学习 Rust 编程语言</title>
+<link rel=canonical href=https://slhmy.github.io/blog/zh-cn/p/learn-rust-with-a-glance/><link rel=stylesheet href=/blog/scss/style.min.448fcb6d1737d2949c27ac1c5388679365e793317e8d0d5bb350765499884641.css><script defer src=https://us.umami.is/script.js data-website-id=f4adb500-cca9-479b-8949-54aaf18bc2e0></script><meta property='og:title' content="快速学习 Rust 编程语言"><meta property='og:description' content="本文将介绍如何快速入门 Rust 编程语言，以及 Rust 的特性和开发工具链。"><meta property='og:url' content='https://slhmy.github.io/blog/zh-cn/p/learn-rust-with-a-glance/'><meta property='og:site_name' content='slhmy 的博客'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Rust'><meta property='article:published_time' content='2023-07-02T16:33:00+08:00'><meta property='article:modified_time' content='2023-07-02T16:33:00+08:00'><meta name=twitter:title content="快速学习 Rust 编程语言"><meta name=twitter:description content="本文将介绍如何快速入门 Rust 编程语言，以及 Rust 的特性和开发工具链。"><link rel="shortcut icon" href=/blog/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/blog/zh-cn/><img src=/blog/img/avatar_huc73af1a01d38386b9228324d3c2a8c0a_89493_300x0_resize_box_3.png width=300 height=300 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/blog/zh-cn>slhmy 的博客</a></h1><h2 class=site-description>💫 Stay creative</h2></div></header><ol class=menu-social><li><a href=https://github.com/slhmy target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.yuque.com/slhmy-zzy target=_blank title=YuQue rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-yuque" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path transform="scale(0.0234375)" stroke-width="56" d="m854.6 370.6c-9.9-39.4 9.9-102.2 73.4-124.4l-67.9-3.6s-25.7-90-143.6-98c-117.9-8.1-195-3-195-3s87.4 55.6 52.4 154.7c-25.6 52.5-65.8 95.6-108.8 144.7-1.3 1.3-2.5 2.6-3.5 3.7-142.2 160.3-365.6 415.3-365.6 415.3 245.9 64.4 410.7-6.3 508.2-91.1 20.5-.2 35.9-.3 46.3-.3 135.8.0 250.6-117.6 245.9-248.4-3.2-89.9-31.9-110.2-41.8-149.6z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/blog/zh-cn/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/blog/zh-cn/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/blog/zh-cn/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/blog/zh-cn/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://slhmy.github.io/blog/zh-cn/ selected>简体中文</option><option value=https://slhmy.github.io/blog/en/>English</option></select></li><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#前言>前言</a><ol><li><a href=#如何快速入门一个新的高级编程语言>如何快速入门一个新的高级编程语言</a></li></ol></li><li><a href=#rust-快速入门>Rust 快速入门</a><ol><li><a href=#rust-的大致画像>Rust 的大致画像</a><ol><li><a href=#我的项目为什么选择-rust>我的项目为什么选择 Rust</a></li></ol></li><li><a href=#rust-的开发工具链>Rust 的开发工具链</a></li><li><a href=#rust的语法和特性>Rust的语法和特性</a><ol><li><a href=#common通用语法>【Common】通用语法</a></li><li><a href=#commonoption-可选变量入门-enum-和模式匹配>【Common】Option 可选变量（入门 Enum 和模式匹配）</a></li><li><a href=#commonresult-错误处理的小问号>【Common】Result 错误处理的小问号？</a></li><li><a href=#common结构体和面向对象>【Common】结构体和面向对象</a></li><li><a href=#project模块的编排>【Project】模块的编排</a></li><li><a href=#magic生命周期>【Magic】生命周期</a></li><li><a href=#magic宏和代码生成>【Magic】宏和代码生成</a></li></ol></li></ol></li><li><a href=#结语>结语</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/blog/zh-cn/categories/coding/>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/blog/zh-cn/p/learn-rust-with-a-glance/>快速学习 Rust 编程语言</a></h2><h3 class=article-subtitle>本文将介绍如何快速入门 Rust 编程语言，以及 Rust 的特性和开发工具链。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jul 02, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 10 分钟</time></div></footer></div></header><section class=article-content><h2 id=前言>前言</h2><p>写这篇 Post 的起因是我希望有更多的人能参与到我的开源项目中来，
+但它是用 Rust 写的，这让不少想要了解这项目的人无法快速加入到其中来。
+当然我也希望能通过这篇文章，能够让更多的人不再畏惧对新语言的学习。</p><p>老实说在半年之前，我也会经常畏惧我没有接触过的高级编程语言
+（例如：我也曾因为没接触过Go而感到困扰）。
+而现在，我已经能够快速适应多种不同高级编程语言的使用
+（请注意我说的是高级编程语言）。
+到目前为止，
+我会在不同情景下使用 Go、Rust、JS/TS、C#、Python、C/C++、Java 这些高级编程语言。
+之所以能够快速接触到这么多语言，我认为有一些经验是需要指出的，
+无论是在学习 Rust 还是任何一门其他的高级编程语言。</p><h3 id=如何快速入门一个新的高级编程语言>如何快速入门一个新的高级编程语言</h3><p>首先，如果你有过几年的编程经验，<u>我不提倡为了学一门语言而去做专项的学习</u>。
+因为在没有项目参考的情况下，学习编程语言的成本是比较高的，
+这会不明所以地消耗你大量的时间。</p><p>你需要变得自信：<u>高级编程语言本身就是人类可读的文本，基本没有理由看不懂</u>。
+会造成困扰的是它们当中<strong>不同的语义符号和一些较为特殊的语言机制</strong>，
+通常来说这些不同会让你在空手进行开发时给你造成比较大的困扰，
+但如果仅是进行阅读，理解代码的逻辑含义还是较为轻松的。</p><p><u>丰富的 RealWorld 项目经历会降低学习的成本</u>。
+代码和读书虽然很接近，但也还是略有不同，
+因为写的代码层次一旦开始变得复杂，你就需要使用一些常见的方法去帮忙降低构思的复杂度，
+例如：面向对象、设计模式、函数式编程等等。
+你不一定会在所有语言中使用到它们，但实战经历会让你更方便理解和写出更好的代码。
+除此以外，项目中时常会用到扩展依赖，比如说序列化工具、数据库驱动、Web 框架等，
+每个语言都有，并且用途和功能都是可以总结的。</p><p>最后，2023年了<u>搞一个 AI 联想帮下忙吧</u>。
+在编写自己不熟悉的语言时，陌生的声明式和符号会让人感到懊恼。
+AI能帮助你尽可能规避类似的问题，多一份联系也是多了一份参考。</p><h2 id=rust-快速入门>Rust 快速入门</h2><p>进入正题，其实上面说了那么多，也是为了在这个环节尽量少说一些。
+接受下划线标注出的关键点，我认为通常来说已经足够了。
+但作为一门相对小众的语言（以及为了能让更多人了解Rust），
+我们还是不得不讨论一些细节的东西。</p><h3 id=rust-的大致画像>Rust 的大致画像</h3><p>以防你可能会问：“Rust 有什么好的？”
+类似这样的问题，我会先简要介绍一下Rust的大致画像。</p><p><u>Rust是一门，性能足以和 C/C++ 媲美的，主打<strong>标准现代工程化</strong>的静态编程语言</u>，
+为了实现高效的运行效率和足够现代和安全的开发流程，
+Rust会比任何同类型的编程语言看上去更加繁琐。
+它是一个较好的 C++ 的同类替代品，在较为基础的模块编写上，能够做到非常优秀的工程输出。
+对于不熟悉使用 C++ 进行工程开发的人来说，
+Rust 项目的工具链（cargo）更容易上手，编写的代码也不容易出错。</p><p>语法形式上 Rust 和 Typescript、Scala 等语言类似，
+使用这些语言的领域的程序员会更容易上手 Rust。
+但同时 Rust 的 unsafe 特性又可以使其下探到系统级别的编程领域，
+这些领域也带来一批更加高级的玩法。</p><p>Rust 的开源社区破事比较多，但也确实有不少大佬也喜欢使用 Rust。</p><h4 id=我的项目为什么选择-rust>我的项目为什么选择 Rust</h4><p>对我来说 Rust 足够存粹，我可以在任何地方任何场合，快速构建 Rust 的项目环境
+（cargo、VSCode+ 插件）。
+cargo 这个工具可以帮助我快速引入我想要的依赖，生成足够清晰的文档，并且做好模块划分，
+相反我对 C++ 该如何做这些事情并不非常熟悉。
+<em>对于未来参与贡献的人来说，我希望在提交代码之前就解决大部分潜在的代码问题，
+Rust 足够安全的特性大幅度减轻了我的心理负担。
+（你写出来的代码通常来说只要通过编译，就不会产生任何无法追查的恶性 BUG）</em></p><h3 id=rust-的开发工具链>Rust 的开发工具链</h3><p>当你在阅读或者开发Rust程序时，你需要安装：</p><ol><li>rustup（包含 cargo）<a class=link href=https://www.rust-lang.org/tools/install target=_blank rel=noopener>官网地址</a></li><li>VSCode/Clion + Rust 插件包（包含 rust-analyzer）（+tabnine/copilot）</li></ol><p>接下来你需要掌握 Cargo 的使用，文档可以参考<a class=link href=https://doc.rust-lang.org/cargo/ target=_blank rel=noopener>Cargo Book</a>。
+<u>你需要知道如何使用 <code>cargo new/build/run/test + fmt/clippy</code> 的使用，其中 fmt 和 clippy 可以帮助你编写更优秀的代码</u>。</p><h3 id=rust的语法和特性>Rust的语法和特性</h3><p><a class=link href=https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html target=_blank rel=noopener>The Rust Programming Language</a>
+是你在感到疑惑时最优先参照的资料，这是最官方的语法教程。
+但正如我之前说的一样，我并不建议你在完全没有项目作为出发点的时候去通读这本书，
+这很消耗时间。</p><p>接下来我会列出一些小的章节，来解释一些你需要在入门时就习惯的的 Rust 语法和特性。</p><h4 id=common通用语法>【Common】通用语法</h4><p>这个章节包含的是如何申明变量，如何使用注释和循环等在其他编程语言当中也非常常见的语法。
+<a class=link href=https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html target=_blank rel=noopener>Common Programming Concepts</a>
+和它的子章节基本就能解决所有这些问题，但我同样不建议你直接阅读这些章节，
+在我看来这些语法稀疏平常，直接阅读通常也能理解它的含义。</p><p>有可能会带来困扰的是声明相关的内容，不过你只需要了解下面这些就足够了。
+如果你想创建一个由名字指代的值，只要这么写就可以了：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>let (mut) {value_name}: {type} = {value}
+</span></span></code></pre></td></tr></table></div></div><p>如你所见，类型声明的位置和其他语言是稍有区别的，显然这不是很影响理解
+<code>mut</code> 你可能之前并没有见过，它的意思是 mutable，
+如果你想创建的时一个变量，你需要在声明时指定 <code>mut</code>。
+<u>Rust 的语法是相对繁复的，
+这种设计的目的是为了让编写的人时刻清楚，自己具体在做什么</u>。</p><h4 id=commonoption-可选变量入门-enum-和模式匹配>【Common】Option 可选变量（入门 Enum 和模式匹配）</h4><p>我们开始接触一些真正奇怪的东西了，
+入门 Rust 第一个坏消息是，你可能不会再见到 <code>Null</code> 或者 <code>nil</code> 了。
+（至于为什么这样可以翻阅这个章节：<a class=link href=https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html#the-option-enum-and-its-advantages-over-null-values target=_blank rel=noopener>The Option Enum and Its Advantages Over Null Values</a>)
+不过好在这件事其实挺容易接受的，
+Option 会是你在 Rust 当中接触的非常多的一种枚举类型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>enum</span> <span class=nb>Option</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nb>None</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nb>Some</span><span class=p>(</span><span class=n>T</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>如果你掌握其他语言中泛型的使用</strong>，那么你应该不难理解上面的代码。</p><blockquote><p>如果你并不清楚什么时泛型，或者说你完全无法理解<code>&lt;></code>，
+可以先尝试阅读
+<a class=link href=https://doc.rust-lang.org/book/ch10-00-generics.html target=_blank rel=noopener>Generic Types, Traits, and Lifetimes</a>
+中的 Generic 部分，或者尝试从其他语言中获取参考，请一定记住，你只需要浅显地理解即可</p></blockquote><p>在展开 <code>Option</code> 包裹的值时，你只会遇到两种情况，一种是 <code>None</code> 一种是有值的 <code>Some</code>。</p><p><strong>那么如何展开一个Enum呢？
+常见的方法有两种 ( <code>match</code> 和 <code>if let</code> )</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>config_max</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>3</span><span class=k>u8</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>match</span><span class=w> </span><span class=n>config_max</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nb>Some</span><span class=p>(</span><span class=n>max</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The maximum is configured to be </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>max</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>_</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=p>(),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>config_max</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>3</span><span class=k>u8</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>if</span><span class=w> </span><span class=kd>let</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=n>max</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>config_max</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The maximum is configured to be </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>max</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>请一定尝试用自然语言的理解方式理解这些代码，我认为这些设计都是足够自然的，
+当没枚举类型不是 Option 时也是可以使用的。</p><p>通常来说，当你只专注于解开 Enum 当中一种情况的值时，你可以使用 <code>if let</code> 句式，
+从而缩减代码量。</p><blockquote><p>你不需要担心无法正确地挑选 <code>match</code> 和 <code>if let</code> 句式，
+因为你可以在命令行中输入 <code>cargo clippy</code> 来获取代码建议，
+如果你的 <code>match</code> 时非常简单的双项选择， <code>cargo clippy</code> 会告诉你如何转换成 <code>if let</code> 的。</p></blockquote><p>最后，这部分的所有内容都包含在 <a class=link href=https://doc.rust-lang.org/book/ch06-00-enums.html target=_blank rel=noopener>Enums and Pattern Matching</a>下。</p><h4 id=commonresult-错误处理的小问号>【Common】Result 错误处理的小问号？</h4><p>接下来我们要继续认识下一个特别的枚举类型 <code>Result</code>。
+在进行下面的阅读之前，我认为可以提醒你一些小关键点：
+如你所见，我单独拿出来举例的都是 Enum 的类型，
+这可能会对读者有一定的误导，认为它们各自时特殊的类型。
+<u>请记住同一种类型它们是共享同一种特性的，如 <code>match</code> 和 <code>if let</code> 对任何 Enum 都可以使用</u></p><p>对 Result 来说可以单独拿出来讲的是 <code>?</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>fs</span>::<span class=n>File</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>io</span>::<span class=p>{</span><span class=bp>self</span><span class=p>,</span><span class=w> </span><span class=n>Read</span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>read_username_from_file</span><span class=p>()</span><span class=w> </span>-&gt; <span class=nb>Result</span><span class=o>&lt;</span><span class=nb>String</span><span class=p>,</span><span class=w> </span><span class=n>io</span>::<span class=n>Error</span><span class=o>&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>username_file</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>File</span>::<span class=n>open</span><span class=p>(</span><span class=s>&#34;hello.txt&#34;</span><span class=p>)</span><span class=o>?</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>username</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>new</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>username_file</span><span class=p>.</span><span class=n>read_to_string</span><span class=p>(</span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>username</span><span class=p>)</span><span class=o>?</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nb>Ok</span><span class=p>(</span><span class=n>username</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>这是Rust当中上抛错误的简易写法，<strong>当上层的 Result 的枚举可以提取上抛的错误类型时，
+就可以使用 <code>?</code> 来使代码在函数返回 Error 的枚举值的时候，直接 return</strong>。</p><blockquote><p>请注意，<code>?</code> 的用法时可以用 <code>match</code> 这种通用方法替代的，它就是在匹配到 <code>Err(_)</code> 时 return 的含义。</p></blockquote><h4 id=common结构体和面向对象>【Common】结构体和面向对象</h4><p>如果你使用过 Golang 这样的较为新式的编程语言，你可能已经接受了不完整的面向对象的使用。
+Rust 也是如此，<code>impl</code> 取代了 Golang 中的接口，使用起来通常比传统的面向对象更加简易。</p><p>我认为在这一部分，你需不需要有太多的学习负担，毕竟这块设计并不是非常有特色的，
+因该能快速适应的。
+相关的章节在：<a class=link href=https://doc.rust-lang.org/book/ch05-00-structs.html target=_blank rel=noopener>Using Structs to Structure Related Data</a>。</p><blockquote><p>对结构体的使用更多是在程序设计方面，出色的设计可以制作出优秀的代码流，可以利用到函数式编程这种优秀的编写方式。</p></blockquote><h4 id=project模块的编排>【Project】模块的编排</h4><p>我非常讨厌单文本代码，代码量一旦变大，我们就需要把代码拆分成多个文件。
+这就会需要考虑我们的代码是否需要进行公开，以及如何在其他地方引用它们。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=k>crate</span>::<span class=n>garden</span>::<span class=n>vegetables</span>::<span class=n>Asparagus</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>garden</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>plant</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Asparagus</span><span class=w> </span><span class=p>{};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;I&#39;m growing </span><span class=si>{:?}</span><span class=s>!&#34;</span><span class=p>,</span><span class=w> </span><span class=n>plant</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>你需要掌握两种标记，<code>pub</code> 和 <code>use</code>：</p><ul><li><code>pub</code> 很容易理解，就是公开模块中的某个元素（元素可以是，函数、结构体、结构体中的成员等）</li><li><code>use</code> 用于引用我们需要使用的元素模块，其后会跟随一串路径，路径的开头可能会有些特殊的起始标记，例如 <code>crate</code> 和 <code>super</code>，前者是项目的起始路径标记，后者是同级模块的相对路径起始标记。</li></ul><p>你可以在遇到疑惑时再翻阅下面的文档 <a class=link href="https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html?highlight=mod#modules-cheat-sheet" target=_blank rel=noopener>Managing Growing Projects with Packages, Crates, and Modules</a></p><h4 id=magic生命周期>【Magic】生命周期</h4><p>压轴部分，也是 Rust 当中最难以理解的特性之一，它在教程的第三章就进行了介绍：
+<a class=link href=https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html target=_blank rel=noopener>Understanding Ownership</a>。
+Rust还有一些其他的高级用法，但生命周期是你几乎无法规避的，
+它的存在造就了 Rust 既块有编写安全的特征，也使代码的编写不那么顺心如意。</p><p>在 Rust 的设计当中，<strong>任何非常量的值，默认只存活于它的作用域当中，且只有一个真正的实体</strong>。</p><p>我稍微修改了一份官方的例子，这个例子在其他编程语言中通常是能通过编译的，但是 Rust 不行。
+原因就是上面的规约造成的，在 <code>let s3 = takes_and_gives_back(s2);</code> 执行时，<code>s2</code> 的实体已经发生了转移。</p><blockquote><p>Rust 的编写过程当中，非常大部分的编译报错都是由不合法的生命周期造成的。
+对此你需要额外地进行一些适应，但请理解，这也可以帮助你在较低的关注成本下关注到每个值的分配和释放的情况。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>gives_ownership</span><span class=p>();</span><span class=w>         </span><span class=c1>// gives_ownership moves its return
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                        </span><span class=c1>// value into s1
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>     </span><span class=c1>// s2 comes into scope
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s3</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>takes_and_gives_back</span><span class=p>(</span><span class=n>s2</span><span class=p>);</span><span class=w>  </span><span class=c1>// s2 is moved into
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                        </span><span class=c1>// takes_and_gives_back, which also
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                        </span><span class=c1>// moves its return value into s3
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// !!! WILL FAILED TO COMPILE !!!
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s4</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>takes_and_gives_back</span><span class=p>(</span><span class=n>s2</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w> </span><span class=c1>// Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>  </span><span class=c1>// happens. s1 goes out of scope and is dropped.
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>gives_ownership</span><span class=p>()</span><span class=w> </span>-&gt; <span class=nb>String</span> <span class=p>{</span><span class=w>             </span><span class=c1>// gives_ownership will move its
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                             </span><span class=c1>// return value into the function
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                             </span><span class=c1>// that calls it
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>some_string</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;yours&#34;</span><span class=p>);</span><span class=w> </span><span class=c1>// some_string comes into scope
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>some_string</span><span class=w>                              </span><span class=c1>// some_string is returned and
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                             </span><span class=c1>// moves out to the calling
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                             </span><span class=c1>// function
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// This function takes a String and returns one
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>fn</span> <span class=nf>takes_and_gives_back</span><span class=p>(</span><span class=n>a_string</span>: <span class=nb>String</span><span class=p>)</span><span class=w> </span>-&gt; <span class=nb>String</span> <span class=p>{</span><span class=w> </span><span class=c1>// a_string comes into
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                                                      </span><span class=c1>// scope
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>a_string</span><span class=w>  </span><span class=c1>// a_string is returned and moves out to the calling function
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>要修复上面的编译报错也很简单，只需对 s2 进行拷贝即可 <code>let s3 = takes_and_gives_back(s2.clone());</code> 。
+<em>在很多语言，例如 Golang 和 Java 中这一动作是自动发生的，
+而在 Rust 当中，你需要在代码中体现这一个动作。</em></p><h4 id=magic宏和代码生成>【Magic】宏和代码生成</h4><p>宏是 Rust 的一种高级特性，但作为入门者你不需要过于担心，我不曾深入过宏的使用，
+在这里提到宏，仅仅是因为你会在代码里看到它们，它能提供更加灵活的功能构建，为代码的编写带来便利。
+作为使用者，我通常用它完成输入输出日志、格式化字符串、添加（反）序列化、编写 WebHandler 等高级功能。</p><p>宏会以三种形式出现：</p><ol><li><code>macro_name!(...)</code> 这种宏的使用无异于函数，也叫做函数宏，只是在函数名后有 <code>!</code> 标注，
+它能带来比函数更加灵活的使用，典型的代表就是 <code>format!/println!()</code> 宏。</li><li><code>#[...]</code> 如果你接触过 C# 的 Attribute，理解这种宏会更加简单，它叫属性宏，可以出现在非常多的代码块的头部
+（比如 Enum、struct、func 等，也可以出现在文件的头部）为这些代码块添加属性，可以使代码块获得额外的能力</li><li><code>#[derive(...)]</code> 你可以理解派生宏为一种特殊的属性宏，但它只能作用于 Enum 和 struct 之上</li></ol><blockquote><p>你可以理解宏是通过某种声明实现的 Rust 代码的生成能力，宏在编译时会在 target 当中自动生成一串相应的代码，
+通常来说你不需要了解具体它们是如何生成的。</p></blockquote><p>更多可以参考文档 <a class=link href="https://doc.rust-lang.org/book/ch19-06-macros.html?highlight=macro#macros" target=_blank rel=noopener>Macros</a></p><h2 id=结语>结语</h2><p>以上就是我认为你需要快速学习 Rust 所需要的全部了，
+在最后我对自己所写的内容进行一些反思。</p><p>我试图让 Rust 的具体部分变得更加地简短易懂，单我不认为我做的非常出色。
+我通过接受难易程度，对语法和特性进行了排列，但知识结构依旧显得较为平面。</p><p>所以在最后，我为每个小章节加上了标头，Common、Project、Magic，
+我认为在任何语言时，可以对语法和特性进行这三大块的分类，
+其中前两者通常不会带来较多的学习成本，
+而 Magic是可能带来困扰，但也是真正能产生差异的部分（例如 Golang 的协程，JS/TS 的 Promise 等）。
+<u>在消化Magic部分的内容时，请务必明白它解决的是什么样的一个问题</u>。</p><p>我在文章中有大量的内容提到了，我不希望各位在入门时就对特性进行过多的深挖，
+因为这是一种很消耗时间的行为，但并不是说完全拒绝类似源码阅读这样的事情。
+只是这些事情通常不应该在初学时就发生，但如果你是位相关经验较为丰富的“初学者”，
+阅读源码也是被允许的，这可能可以帮助你更好地理解一些事情。</p><p>(全文终)</p><p>😩 写的好累，希望各位喜欢 💕</p><p>📕 ~欢迎在评论区给我留言~ ⌨️</p></section><footer class=article-footer><section class=article-tags><a href=/blog/zh-cn/tags/rust/>Rust</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/blog/zh-cn/p/go-pc-control-model/><div class=article-image><img src=/blog/zh-cn/p/go-pc-control-model/cover.27ed50b402e52ac6cf44e387b281755e_hu953e2c72d9b12b806d89fab0806c539c_42271_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post Golang 生产消费控制模型" data-key=go-pc-control-model data-hash="md5-J+1QtALlKsbPROOHsoF1Xg=="></div><div class=article-details><h2 class=article-title>Golang 生产消费控制模型</h2></div></a></article><article><a href=/blog/zh-cn/p/react-hooks/><div class=article-details><h2 class=article-title>React 基础</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//slhmy-github-io.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 slhmy 的博客</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/blog/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
