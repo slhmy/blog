@@ -1,0 +1,175 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import TagList from '../../components/TagList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { basePath, withBase } from '../../utils/paths';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tagSet = new Set<string>();
+	for (const post of posts) {
+		for (const tag of post.data.tags) {
+			tagSet.add(tag);
+		}
+	}
+	return [...tagSet].map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+	.filter((post) => post.data.tags.includes(tag))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${tag} — ${SITE_TITLE}`} description={`Posts tagged "${tag}". ${SITE_DESCRIPTION}`} />
+		<style>
+			main {
+				width: 720px;
+			}
+			.page-title {
+				margin-bottom: 1.5em;
+				font-size: 1.25em;
+				font-weight: 600;
+				color: rgb(var(--black));
+			}
+			.page-title span {
+				color: var(--accent);
+			}
+			.back {
+				display: inline-block;
+				margin-top: 2em;
+				color: rgb(var(--gray));
+				font-size: 0.9em;
+			}
+			.back:hover {
+				color: var(--accent);
+			}
+			.post-list {
+				list-style: none;
+				margin: 0 0 0.5em;
+				padding: 0;
+			}
+			.post-list li + li {
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.post-row {
+				padding: 1.2em 0.5em;
+				margin: 0 -0.5em;
+				border-radius: 8px;
+				transition: background 0.2s;
+				position: relative;
+			}
+			.post-row:hover {
+				background: rgba(var(--gray-light), 0.35);
+			}
+			.post-row::after {
+				content: '';
+				position: absolute;
+				left: -0.5em;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 3px;
+				height: 0;
+				border-radius: 2px;
+				background: var(--accent);
+				transition: height 0.2s;
+			}
+			.post-row:hover::after {
+				height: 60%;
+			}
+			.post-list a {
+				display: flex;
+				align-items: flex-start;
+				gap: 1.5em;
+				text-decoration: none;
+				color: inherit;
+			}
+			.post-thumb {
+				flex-shrink: 0;
+				border-radius: 6px;
+				object-fit: cover;
+			}
+			.post-date {
+				flex-shrink: 0;
+				width: 5em;
+				padding-top: 0.15em;
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+				text-align: right;
+				line-height: 1.4;
+			}
+			.post-body {
+				flex: 1;
+				min-width: 0;
+			}
+			.post-title {
+				margin: 0;
+				font-size: 1.15em;
+				font-weight: 600;
+				color: rgb(var(--black));
+				line-height: 1.4;
+			}
+			.post-desc {
+				margin: 0.3em 0 0.4em;
+				font-size: 0.9em;
+				color: rgb(var(--gray));
+				line-height: 1.55;
+			}
+			@media (max-width: 600px) {
+				.post-row {
+					padding: 0.8em 0.5em;
+				}
+				.post-list a {
+					flex-direction: column;
+					gap: 0.1em;
+				}
+				.post-date {
+					width: auto;
+					text-align: left;
+					font-size: 0.8em;
+				}
+				.post-title {
+					font-size: 1.05em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1 class="page-title">Posts tagged <span>#{tag}</span></h1>
+			<ul class="post-list">
+				{posts.map((post) => (
+					<li>
+						<div class="post-row">
+							<a href={withBase(`/blog/${post.id}/`)}>
+								<time class="post-date" datetime={post.data.pubDate.toISOString()}>
+									{post.data.pubDate.toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+								</time>
+								{post.data.heroImage && (
+									<Image class="post-thumb" width={160} height={90} src={post.data.heroImage} alt="" />
+								)}
+								<div class="post-body">
+									<h2 class="post-title">{post.data.title}</h2>
+									<p class="post-desc">{post.data.description}</p>
+									<TagList tags={post.data.tags} />
+								</div>
+							</a>
+						</div>
+					</li>
+				))}
+			</ul>
+			<a class="back" href={basePath}>&larr; All posts</a>
+		</main>
+		<Footer />
+	</body>
+</html>

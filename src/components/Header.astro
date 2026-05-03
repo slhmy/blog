@@ -1,0 +1,251 @@
+---
+import { SITE_TITLE } from '../consts';
+import BlogClickSpark from './BlogClickSpark.jsx';
+import HeaderLink from './HeaderLink.astro';
+import { basePath } from '../utils/paths';
+---
+
+<BlogClickSpark client:load />
+
+<header>
+	<nav>
+		<h2><a href={basePath}>{SITE_TITLE}</a></h2>
+		<div class="internal-links">
+			<HeaderLink href="/">Blog</HeaderLink>
+		</div>
+		<div class="nav-actions">
+			<div class="settings-menu" id="settings-menu">
+				<button id="settings-toggle" class="icon-button" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.32.62.95 1 1.6 1H21a2 2 0 0 1 0 4h-.09A1.65 1.65 0 0 0 19.4 15z"/></svg>
+				</button>
+				<div id="settings-panel" class="settings-panel" hidden>
+					<div class="settings-section">
+						<div class="settings-label">Theme</div>
+						<div id="theme-toggle" class="theme-options" role="group" aria-label="Theme">
+							<button type="button" data-theme-choice="light" aria-label="Use light theme">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+								<span>Light</span>
+							</button>
+							<button type="button" data-theme-choice="dark" aria-label="Use dark theme">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.99 12.5A8.5 8.5 0 1 1 11.5 3.01 6.5 6.5 0 0 0 20.99 12.5z"/></svg>
+								<span>Dark</span>
+							</button>
+							<button type="button" data-theme-choice="auto" aria-label="Follow system theme">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>
+								<span>System</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="search">
+				<pagefind-modal-trigger></pagefind-modal-trigger>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<pagefind-modal></pagefind-modal>
+
+<script>
+	import { getInstanceManager } from '@pagefind/component-ui';
+
+	const basePath = import.meta.env.BASE_URL.endsWith('/')
+		? import.meta.env.BASE_URL
+		: `${import.meta.env.BASE_URL}/`;
+	getInstanceManager().getInstance('default').options.bundlePath = `${basePath}pagefind/`;
+
+	const settingsMenu = document.getElementById('settings-menu');
+	const settingsToggle = document.getElementById('settings-toggle');
+	const settingsPanel = document.getElementById('settings-panel');
+	const themeToggle = document.getElementById('theme-toggle');
+	if (!settingsMenu || !settingsToggle || !settingsPanel || !themeToggle) {
+		throw new Error('settings menu not found');
+	}
+	const themeButtons = [...themeToggle.querySelectorAll<HTMLButtonElement>('[data-theme-choice]')];
+
+	const order = ['auto', 'light', 'dark'] as const;
+	type Theme = (typeof order)[number];
+
+	function setTheme(theme: Theme) {
+		document.documentElement.setAttribute('data-theme', theme);
+		localStorage.setItem('theme', theme);
+		themeToggle.dataset.theme = theme;
+		for (const button of themeButtons) {
+			const active = button.dataset.themeChoice === theme;
+			button.setAttribute('aria-pressed', String(active));
+		}
+	}
+
+	const current = (document.documentElement.getAttribute('data-theme') as Theme) || 'auto';
+	setTheme(order.includes(current) ? current : 'auto');
+
+	themeToggle.addEventListener('click', (event) => {
+		const target = event.target;
+		if (!(target instanceof Element)) return;
+		const button = target.closest<HTMLButtonElement>('[data-theme-choice]');
+		if (!button) return;
+		const theme = button.dataset.themeChoice as Theme;
+		setTheme(order.includes(theme) ? theme : 'auto');
+		closeSettings();
+	});
+
+	function openSettings() {
+		settingsPanel.hidden = false;
+		settingsToggle.setAttribute('aria-expanded', 'true');
+	}
+
+	function closeSettings() {
+		settingsPanel.hidden = true;
+		settingsToggle.setAttribute('aria-expanded', 'false');
+	}
+
+	settingsToggle.addEventListener('click', () => {
+		if (settingsPanel.hidden) openSettings();
+		else closeSettings();
+	});
+
+	document.addEventListener('click', (event) => {
+		if (!(event.target instanceof Node)) return;
+		if (!settingsMenu.contains(event.target)) closeSettings();
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') closeSettings();
+	});
+</script>
+
+<style>
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.35em;
+	}
+	.settings-menu {
+		position: relative;
+		line-height: 0;
+	}
+	.icon-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2em;
+		height: 2em;
+		padding: 0;
+		border: 1px solid rgba(var(--gray-light), 0.9);
+		border-radius: 0.55em;
+		background: rgba(var(--bg), 0.58);
+		color: rgb(var(--black));
+		cursor: pointer;
+		transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	}
+	.icon-button:hover,
+	.icon-button[aria-expanded="true"] {
+		background: rgba(var(--gray-light), 0.5);
+		border-color: rgba(var(--gray), 0.28);
+	}
+	.settings-panel {
+		position: absolute;
+		top: calc(100% + 0.45em);
+		right: 0;
+		z-index: 30;
+		width: 12.5em;
+		padding: 0.55em;
+		border: 1px solid rgba(var(--gray-light), 0.95);
+		border-radius: 0.65em;
+		background: rgba(var(--bg), 0.9);
+		box-shadow: 0 16px 48px rgba(var(--black), 0.16);
+		backdrop-filter: blur(18px);
+		line-height: 1.2;
+	}
+	.settings-label {
+		margin: 0.15em 0.35em 0.45em;
+		color: rgb(var(--gray));
+		font-size: 0.72em;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+	.theme-options {
+		display: grid;
+		gap: 0.2em;
+	}
+	.theme-options button {
+		display: flex;
+		align-items: center;
+		gap: 0.55em;
+		width: 100%;
+		padding: 0.48em 0.55em;
+		border: 0;
+		border-radius: 0.45em;
+		background: transparent;
+		color: rgb(var(--gray-dark));
+		font: inherit;
+		font-size: 0.86em;
+		text-align: left;
+		cursor: pointer;
+		transition: background 0.18s ease, color 0.18s ease;
+	}
+	.theme-options button:hover,
+	.theme-options button[aria-pressed="true"] {
+		background: rgba(var(--gray-light), 0.58);
+		color: rgb(var(--black));
+	}
+	.theme-options button[aria-pressed="true"]::after {
+		content: '';
+		width: 0.38em;
+		height: 0.38em;
+		margin-left: auto;
+		border-radius: 999px;
+		background: var(--accent);
+	}
+	.search {
+		display: flex;
+		align-items: center;
+		height: 1.75em;
+		line-height: 0;
+	}
+	header {
+		margin: 0;
+		padding: 0 1em;
+		background: rgb(var(--bg));
+		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+	}
+	h2 {
+		margin: 0;
+		font-size: 1em;
+	}
+	h2 a,
+	h2 a.active {
+		text-decoration: none;
+	}
+	nav {
+		display: flex;
+		align-items: center;
+	}
+	.internal-links {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		gap: 0.25em;
+	}
+	.internal-links a {
+		padding: 1em 0.5em;
+		color: rgb(var(--black));
+		border-bottom: 4px solid transparent;
+		text-decoration: none;
+	}
+	.internal-links a.active {
+		text-decoration: none;
+		border-bottom-color: var(--accent);
+	}
+	.social-links,
+	.social-links a {
+		display: flex;
+	}
+	@media (max-width: 720px) {
+		.social-links {
+			display: none;
+		}
+	}
+</style>

@@ -1,0 +1,44 @@
+---
+import { withBase } from '../utils/paths';
+
+interface Props {
+	tags: string[];
+	center?: boolean;
+}
+
+const { tags = [], center = false } = Astro.props;
+---
+
+{
+	tags.length > 0 && (
+		<ul class="tags" style={center ? 'justify-content:center;' : ''}>
+			{tags.map((tag) => <li><a href={withBase(`/tags/${tag}/`)}>#{tag}</a></li>)}
+		</ul>
+	)
+}
+
+<style>
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4em;
+		list-style: none;
+		margin: 0.4em 0 0;
+		padding: 0;
+	}
+	.tags a {
+		display: inline-block;
+		padding: 0.15em 0.7em;
+		font-size: 0.8em;
+		line-height: 1.4;
+		font-weight: 500;
+		color: #fff;
+		background: var(--accent);
+		border-radius: 1em;
+		text-decoration: none;
+		transition: opacity 0.2s;
+	}
+	.tags a:hover {
+		opacity: 0.85;
+	}
+</style>

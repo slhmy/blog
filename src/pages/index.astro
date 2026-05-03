@@ -1,0 +1,291 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import BlogLetterGlitch from '../components/BlogLetterGlitch.jsx';
+import BorderGlow from '../components/BorderGlow.jsx';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import TagList from '../components/TagList.astro';
+import { withBase } from '../utils/paths';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Group by year
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+	const y = post.data.pubDate.getFullYear();
+	if (!byYear.has(y)) byYear.set(y, []);
+	byYear.get(y)!.push(post);
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style is:global>
+			body {
+				background: rgb(var(--bg));
+			}
+			body.liquid-home {
+				--liquid-bg:
+					radial-gradient(circle at 18% 18%, rgba(82, 109, 255, 0.22), transparent 34%),
+					radial-gradient(circle at 84% 18%, rgba(214, 182, 216, 0.18), transparent 32%),
+					radial-gradient(circle at 50% 80%, rgba(112, 225, 245, 0.2), transparent 44%),
+					#f6f8ff;
+				--liquid-filter: saturate(1.03) contrast(1.02) brightness(1.04);
+				--liquid-chrome-bg: rgba(var(--bg), 0.76);
+				--liquid-panel-bg: rgba(var(--bg), 0.72);
+				--liquid-panel-border: rgba(var(--gray-light), 0.86);
+				--liquid-panel-shadow: 0 24px 80px rgba(var(--gray), 0.18);
+			}
+			:root[data-theme='dark'] body.liquid-home {
+				--liquid-bg:
+					radial-gradient(circle at 20% 20%, rgba(82, 39, 255, 0.26), transparent 34%),
+					radial-gradient(circle at 86% 24%, rgba(255, 159, 252, 0.28), transparent 30%),
+					#070711;
+				--liquid-filter: saturate(1.28) contrast(1.08);
+				--liquid-chrome-bg: rgba(var(--bg), 0.64);
+				--liquid-panel-bg: rgba(var(--bg), 0.5);
+				--liquid-panel-border: rgba(var(--gray-dark), 0.16);
+				--liquid-panel-shadow: 0 24px 90px rgba(0, 0, 0, 0.38);
+			}
+			@media (prefers-color-scheme: dark) {
+				:root[data-theme='auto'] body.liquid-home {
+					--liquid-bg:
+						radial-gradient(circle at 20% 20%, rgba(82, 39, 255, 0.26), transparent 34%),
+						radial-gradient(circle at 86% 24%, rgba(255, 159, 252, 0.28), transparent 30%),
+						#070711;
+					--liquid-filter: saturate(1.28) contrast(1.08);
+					--liquid-chrome-bg: rgba(var(--bg), 0.64);
+					--liquid-panel-bg: rgba(var(--bg), 0.5);
+					--liquid-panel-border: rgba(var(--gray-dark), 0.16);
+					--liquid-panel-shadow: 0 24px 90px rgba(0, 0, 0, 0.38);
+				}
+			}
+			body.liquid-home .letter-glitch-container {
+				position: fixed;
+				inset: 0;
+				width: 100vw;
+				height: 100vh;
+				z-index: 0;
+				pointer-events: none;
+				background: var(--liquid-bg);
+				filter: var(--liquid-filter);
+				transition: background 0.35s ease, filter 0.35s ease;
+			}
+			body.liquid-home header,
+			body.liquid-home footer {
+				position: relative;
+				background: var(--liquid-chrome-bg);
+				backdrop-filter: blur(18px);
+			}
+			body.liquid-home header {
+				z-index: 40;
+			}
+			body.liquid-home footer {
+				z-index: 1;
+			}
+			main {
+				width: 720px;
+				position: relative;
+				z-index: 1;
+			}
+			main::before {
+				content: '';
+				position: absolute;
+				inset: 1.7em 0;
+				z-index: -1;
+				border: 1px solid var(--liquid-panel-border);
+				border-radius: 8px;
+				background: var(--liquid-panel-bg);
+				backdrop-filter: blur(22px);
+				box-shadow: var(--liquid-panel-shadow);
+			}
+			.post-glow-card {
+				width: 100%;
+				border-color: transparent;
+				background: rgba(var(--bg), 0.12);
+				box-shadow: none;
+			}
+			.post-glow-card::before,
+			.post-glow-card::after {
+				display: none;
+			}
+			.post-glow-card > .edge-light {
+				z-index: 0;
+				mix-blend-mode: screen;
+			}
+			.post-glow-card .border-glow-inner {
+				overflow: visible;
+				border-radius: 8px;
+				z-index: 1;
+			}
+			.year {
+				margin: 2.5em 0 0.8em;
+				font-size: 1em;
+				font-weight: 700;
+				color: rgb(var(--gray));
+				letter-spacing: 0.05em;
+			}
+			.year:first-child {
+				margin-top: 0;
+			}
+			.post-list {
+				list-style: none;
+				margin: 0 0 0.5em;
+				padding: 0;
+			}
+			.post-list li + li {
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.post-row {
+				display: flex;
+				align-items: flex-start;
+				gap: 1.5em;
+				padding: 1.2em 1em;
+				border-radius: 8px;
+				transition: background 0.2s;
+				position: relative;
+			}
+			.post-row:hover {
+				background: rgba(var(--gray-light), 0.32);
+			}
+			.post-row::after {
+				content: '';
+				position: absolute;
+				left: -0.5em;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 3px;
+				height: 0;
+				border-radius: 2px;
+				background: var(--accent);
+				transition: height 0.2s;
+			}
+			.post-row:hover::after {
+				height: 60%;
+			}
+			.post-link {
+				text-decoration: none;
+				color: inherit;
+			}
+			.post-link::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+			}
+			.post-date {
+				flex-shrink: 0;
+				width: 5em;
+				padding-top: 0.15em;
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+				text-align: right;
+				line-height: 1.4;
+			}
+			.post-date span {
+				display: block;
+				font-variant-numeric: tabular-nums;
+			}
+			.post-thumb {
+				flex-shrink: 0;
+				border-radius: 6px;
+				object-fit: cover;
+			}
+			.post-body {
+				flex: 1;
+				min-width: 0;
+			}
+			.post-title {
+				margin: 0;
+				font-size: 1.15em;
+				font-weight: 600;
+				color: rgb(var(--black));
+				line-height: 1.4;
+			}
+			.post-desc {
+				margin: 0.3em 0 0.4em;
+				font-size: 0.9em;
+				color: rgb(var(--gray));
+				line-height: 1.55;
+			}
+			@media (max-width: 600px) {
+				.year {
+					margin: 2em 0 0.6em;
+				}
+				main::before {
+					inset: 0.4em 0;
+				}
+				.post-row {
+					padding: 0.8em 0.9em;
+					flex-direction: column;
+					gap: 0.1em;
+				}
+				.post-date {
+					width: auto;
+					text-align: left;
+					font-size: 0.8em;
+				}
+				.post-date span {
+					display: inline;
+				}
+				.post-title {
+					font-size: 1.05em;
+				}
+			}
+		</style>
+	</head>
+	<body class="liquid-home">
+		<BlogLetterGlitch client:load />
+		<Header />
+		<main>
+			{[...byYear].map(([year, posts]) => (
+				<section>
+					<h2 class="year">{year}</h2>
+					<ul class="post-list">
+						{posts.map((post) => (
+							<li>
+								<BorderGlow
+									client:load
+									className="post-glow-card"
+									edgeSensitivity={24}
+									glowColor="232 92 78"
+									backgroundColor="transparent"
+									borderRadius={8}
+									glowRadius={24}
+									glowIntensity={0.82}
+									coneSpread={22}
+									animated={false}
+									colors={['#6b83ff', '#d6b6d8', '#70e1f5']}
+									fillOpacity={0.28}
+								>
+									<div class="post-row">
+										<time class="post-date" datetime={post.data.pubDate.toISOString()}>
+											<span>{post.data.pubDate.toLocaleDateString('en', { month: 'short', day: 'numeric' })}</span>
+										</time>
+										<div class="post-body">
+											<a class="post-link" href={withBase(`/blog/${post.id}/`)}>
+												<h3 class="post-title">{post.data.title}</h3>
+											</a>
+											<p class="post-desc">{post.data.description}</p>
+											<TagList tags={post.data.tags} />
+										</div>
+										{post.data.heroImage && (
+											<Image class="post-thumb" width={160} height={90} src={post.data.heroImage} alt="" />
+										)}
+									</div>
+								</BorderGlow>
+							</li>
+						))}
+					</ul>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>

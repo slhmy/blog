@@ -1,0 +1,226 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import BlogLetterGlitch from '../components/BlogLetterGlitch.jsx';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import TagList from '../components/TagList.astro';
+import { basePath } from '../utils/paths';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style is:global>
+			body.post-page {
+				--post-bg:
+					radial-gradient(circle at 16% 18%, rgba(82, 109, 255, 0.2), transparent 34%),
+					radial-gradient(circle at 84% 18%, rgba(214, 182, 216, 0.16), transparent 32%),
+					radial-gradient(circle at 50% 82%, rgba(112, 225, 245, 0.18), transparent 44%),
+					#f6f8ff;
+				--post-filter: saturate(1.03) contrast(1.02) brightness(1.04);
+				--post-panel-bg: rgba(var(--bg), 0.78);
+				--post-panel-border: rgba(var(--gray-light), 0.88);
+				--post-panel-shadow: 0 24px 80px rgba(var(--gray), 0.16);
+				background: rgb(var(--bg));
+			}
+			:root[data-theme='dark'] body.post-page {
+				--post-bg:
+					radial-gradient(circle at 20% 20%, rgba(82, 39, 255, 0.22), transparent 34%),
+					radial-gradient(circle at 86% 24%, rgba(255, 159, 252, 0.2), transparent 30%),
+					#070711;
+				--post-filter: saturate(1.2) contrast(1.06);
+				--post-panel-bg: rgba(var(--bg), 0.64);
+				--post-panel-border: rgba(var(--gray-dark), 0.16);
+				--post-panel-shadow: 0 24px 90px rgba(0, 0, 0, 0.38);
+			}
+			@media (prefers-color-scheme: dark) {
+				:root[data-theme='auto'] body.post-page {
+					--post-bg:
+						radial-gradient(circle at 20% 20%, rgba(82, 39, 255, 0.22), transparent 34%),
+						radial-gradient(circle at 86% 24%, rgba(255, 159, 252, 0.2), transparent 30%),
+						#070711;
+					--post-filter: saturate(1.2) contrast(1.06);
+					--post-panel-bg: rgba(var(--bg), 0.64);
+					--post-panel-border: rgba(var(--gray-dark), 0.16);
+					--post-panel-shadow: 0 24px 90px rgba(0, 0, 0, 0.38);
+				}
+			}
+			body.post-page .letter-glitch-container {
+				position: fixed;
+				inset: 0;
+				width: 100vw;
+				height: 100vh;
+				z-index: 0;
+				pointer-events: none;
+				background: var(--post-bg);
+				filter: var(--post-filter);
+			}
+			body.post-page header {
+				position: relative;
+				z-index: 40;
+				background: rgba(var(--bg), 0.78);
+				backdrop-filter: blur(18px);
+			}
+			body.post-page footer {
+				position: relative;
+				z-index: 1;
+				background: rgba(var(--bg), 0.78);
+				backdrop-filter: blur(18px);
+			}
+			main {
+				width: min(880px, calc(100% - 2em));
+				max-width: none;
+				margin: 0 auto;
+				padding: 3.2em 1em;
+				position: relative;
+				z-index: 1;
+			}
+			.post-shell {
+				border: 1px solid var(--post-panel-border);
+				border-radius: 8px;
+				background: var(--post-panel-bg);
+				box-shadow: var(--post-panel-shadow);
+				backdrop-filter: blur(22px);
+				overflow: hidden;
+			}
+			.hero-image {
+				width: 100%;
+				background: rgba(var(--gray-light), 0.18);
+			}
+			.hero-image img {
+				display: block;
+				width: 100%;
+				height: auto;
+				margin: 0;
+				border-radius: 0;
+			}
+			.prose {
+				width: min(720px, calc(100% - 2em));
+				max-width: none;
+				margin: 0 auto;
+				padding: 2.2em 0 2.6em;
+				color: rgb(var(--gray-dark));
+				font-size: 1rem;
+				line-height: 1.86;
+			}
+			.title {
+				padding: 0 0 1.4em;
+				text-align: left;
+				line-height: 1.2;
+			}
+			.title h1 {
+				margin: 0 0 0.35em;
+				max-width: 11em;
+				font-size: clamp(2.3rem, 7vw, 4.2rem);
+				letter-spacing: 0;
+			}
+			.title .tags {
+				justify-content: flex-start !important;
+				margin: 0.85em 0 0;
+				padding: 0;
+				display: flex;
+				width: 100%;
+			}
+			.title .tags li {
+				margin: 0;
+			}
+			.title .tags a {
+				white-space: nowrap;
+			}
+			.date {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35em 0.7em;
+				align-items: center;
+				margin-top: 0.9em;
+				margin-bottom: 1.2em;
+				color: rgb(var(--gray));
+				font-size: 0.92em;
+				line-height: 1.4;
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+			.back-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.35em;
+				margin-bottom: 1.4em;
+				color: rgb(var(--gray));
+				font-size: 0.9em;
+				text-decoration: none;
+			}
+			.back-link:hover {
+				color: var(--accent);
+			}
+			.prose hr {
+				margin: 1.5em 0 2em;
+				border-top-color: rgba(var(--gray-light), 0.9);
+			}
+			.prose > p {
+				margin: 0 0 1.4em;
+			}
+			.prose :where(h2, h3, h4) {
+				margin-top: 1.7em;
+			}
+			.prose :where(ul, ol) {
+				padding-left: 1.25em;
+			}
+			.prose :where(li + li) {
+				margin-top: 0.35em;
+			}
+			@media (max-width: 720px) {
+				main {
+					width: calc(100% - 1em);
+					padding: 1em 0 2em;
+				}
+				.prose {
+					width: calc(100% - 1.8em);
+					padding: 1.4em 0 1.8em;
+				}
+				.title h1 {
+					font-size: 2.25rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body class="post-page">
+		<BlogLetterGlitch client:load />
+		<Header />
+		<main>
+			<article class="post-shell">
+				<div class="hero-image">
+					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				</div>
+				<div class="prose">
+					<a class="back-link" href={basePath}>&larr; Blog</a>
+					<div class="title">
+						<h1>{title}</h1>
+						<TagList tags={tags} center />
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										Last updated on <FormattedDate date={updatedDate} />
+									</div>
+								)
+							}
+						</div>
+						<hr />
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
