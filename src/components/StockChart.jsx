@@ -90,7 +90,7 @@ export default function StockChart({ entries }) {
 		const draw = () => {
 			const rect = shell.getBoundingClientRect();
 			const width = Math.max(240, Math.floor(rect.width));
-			const height = width < 560 ? 330 : 390;
+			const height = width < 390 ? 300 : width < 560 ? 330 : 390;
 			const ratio = Math.min(window.devicePixelRatio || 1, 2);
 			canvas.width = width * ratio;
 			canvas.height = height * ratio;
@@ -206,7 +206,7 @@ export default function StockChart({ entries }) {
 				}
 			});
 
-			const tickEvery = compact ? 4 : chartData.length > 10 ? 2 : 1;
+			const tickEvery = width < 390 ? 5 : compact ? 4 : chartData.length > 10 ? 2 : 1;
 			chartData.forEach((item, index) => {
 				if (index % tickEvery !== 0 && index !== chartData.length - 1) return;
 				const x = padding.left + step * index + step / 2;
@@ -299,6 +299,7 @@ export default function StockChart({ entries }) {
 			<canvas
 				ref={canvasRef}
 				onPointerMove={handlePointerMove}
+				onPointerDown={handlePointerMove}
 				onPointerLeave={() => setActiveIndex(null)}
 				onPointerCancel={() => setActiveIndex(null)}
 				role="img"

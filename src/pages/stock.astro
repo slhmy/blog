@@ -285,9 +285,11 @@ const formatDate = (date: string) =>
 			}
 			@media (max-width: 720px) {
 				body.stock-page main {
-					padding-top: 2em;
-					padding-bottom: 2.5em;
+					width: calc(100% - 1rem);
+					padding-top: 1rem;
+					padding-bottom: 2rem;
 				}
+				.stock-panel { border-radius: 14px; }
 				.metrics-grid {
 					grid-template-columns: repeat(2, 1fr);
 				}
@@ -296,17 +298,26 @@ const formatDate = (date: string) =>
 				.history-list {
 					display: flex;
 					overflow-x: auto;
+					margin-inline: -1.35em;
+					padding-inline: 1.35em;
+					scroll-snap-type: x proximity;
 					scrollbar-width: thin;
 				}
 				.history-row {
 					flex: 0 0 7em;
+					scroll-snap-align: start;
 				}
 				.stock-chart-shell { min-height: 330px; }
+				.chart-heading p { max-width: 42rem; line-height: 1.45; }
 			}
 			@media (max-width: 430px) {
-				.metric { padding: 1em; }
+				.metric { padding: 0.9rem; }
+				.metric-label { font-size: 0.64em; line-height: 1.3; }
+				.metric-value { font-size: 1.2em; }
 				.chart-section,
-				.history-card { padding: 1em; }
+				.history-card { padding: 0.9rem; }
+				.history-list { margin-inline: -0.9rem; padding-inline: 0.9rem; }
+				.stock-chart-shell { min-height: 300px; }
 			}
 		</style>
 	</head>

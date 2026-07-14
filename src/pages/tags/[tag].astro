@@ -211,11 +211,13 @@ const posts = allPosts
 				line-height: 1.55;
 			}
 			@media (max-width: 600px) {
+				main { width: calc(100% - 1rem); padding-top: 1rem; }
+				.page-title { padding-inline: 0.85rem; line-height: 1.45; }
 				main::before { inset: 0.4em 0; }
 				.post-row {
-					padding: 0.8em 0.9em;
+					padding: 0.8rem;
 					flex-direction: column;
-					gap: 0.1em;
+					gap: 0.25rem;
 				}
 				.post-date {
 					width: auto;
@@ -225,6 +227,14 @@ const posts = allPosts
 				.post-title {
 					font-size: 1.05em;
 				}
+				.post-thumb {
+					order: -1;
+					width: 100%;
+					height: auto;
+					aspect-ratio: 16 / 9;
+					margin-bottom: 0.45rem;
+				}
+				.back { margin: 1.25rem 0.85rem 0; min-height: 2.75rem; }
 			}
 		</style>
 	</head>

@@ -208,7 +208,7 @@ import { basePath } from '../utils/paths';
 	}
 	header {
 		margin: 0;
-		padding: 0 1em;
+		padding: 0 max(1em, env(safe-area-inset-right)) 0 max(1em, env(safe-area-inset-left));
 		background: rgb(var(--bg));
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
@@ -223,6 +223,7 @@ import { basePath } from '../utils/paths';
 	nav {
 		display: flex;
 		align-items: center;
+		min-height: 3.4em;
 	}
 	.internal-links {
 		flex: 1;
@@ -245,8 +246,64 @@ import { basePath } from '../utils/paths';
 		display: flex;
 	}
 	@media (max-width: 720px) {
-		.social-links {
+		header {
+			padding-inline: max(0.75rem, env(safe-area-inset-left));
+		}
+		nav {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			min-height: 0;
+			padding-top: 0.55rem;
+		}
+		nav > h2 {
+			min-width: 0;
+			font-size: 1rem;
+		}
+		nav > h2 a {
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.nav-actions {
+			justify-self: end;
+		}
+		.internal-links {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			justify-content: flex-start;
+			gap: 0.15rem;
+			margin-top: 0.35rem;
+			overflow-x: auto;
+			scrollbar-width: none;
+		}
+		.internal-links::-webkit-scrollbar {
 			display: none;
+		}
+		.internal-links a {
+			min-height: 2.6rem;
+			padding: 0.58rem 0.7rem 0.48rem;
+			border-bottom-width: 3px;
+			white-space: nowrap;
+		}
+		.icon-button {
+			width: 2.65rem;
+			height: 2.65rem;
+		}
+		.search {
+			height: 2.65rem;
+		}
+		.settings-panel {
+			position: fixed;
+			top: 4rem;
+			right: max(0.75rem, env(safe-area-inset-right));
+			left: max(0.75rem, env(safe-area-inset-left));
+			width: auto;
+			max-width: 22rem;
+			margin-left: auto;
+		}
+		.theme-options button {
+			min-height: 2.75rem;
 		}
 	}
 </style>

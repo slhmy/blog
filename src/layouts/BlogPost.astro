@@ -178,15 +178,44 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 			}
 			@media (max-width: 720px) {
 				main {
-					width: calc(100% - 1em);
-					padding: 1em 0 2em;
+					width: calc(100% - 0.75rem);
+					padding: 0.75rem 0 2rem;
+				}
+				.post-shell {
+					border-radius: 12px;
 				}
 				.prose {
-					width: calc(100% - 1.8em);
-					padding: 1.4em 0 1.8em;
+					width: calc(100% - 2rem);
+					padding: 1.25rem 0 1.8rem;
+					font-size: 0.98rem;
+					line-height: 1.78;
 				}
 				.title h1 {
-					font-size: 2.25rem;
+					max-width: none;
+					font-size: clamp(2rem, 10vw, 2.75rem);
+					word-break: break-word;
+				}
+				.title {
+					padding-bottom: 0.75rem;
+				}
+				.date {
+					align-items: flex-start;
+					flex-direction: column;
+					margin-bottom: 0.9rem;
+				}
+				.back-link {
+					min-height: 2.75rem;
+					margin-bottom: 0.7rem;
+					align-items: center;
+				}
+				.prose :where(h2, h3, h4) {
+					scroll-margin-top: 1rem;
+				}
+				.prose :where(img, video, iframe) {
+					max-width: 100%;
+				}
+				.prose iframe {
+					width: 100%;
 				}
 			}
 		</style>
