@@ -6,4 +6,5 @@ export interface StockEntry {
 export const stockEntries: StockEntry[] = [
 	{ date: '2026-07-14', value: 2107.86 },
 	{ date: '2026-07-15', value: -2311.45 },
+	{ date: '2026-07-16', value: -1658.8 },
 ];
