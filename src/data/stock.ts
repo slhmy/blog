@@ -10,4 +10,5 @@ export const stockEntries: StockEntry[] = [
 	{ date: '2026-07-17', value: -277.26 },
 	{ date: '2026-07-20', value: 567.41 },
 	{ date: '2026-07-21', value: -247.9 },
+	{ date: '2026-07-22', value: 487.23 },
 ];
